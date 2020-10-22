@@ -14,6 +14,9 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -50,9 +53,12 @@ public class BoardController implements Initializable {
     @FXML
     private void handleButtonAction(MouseEvent event) {
         try {
+            
             int x = (int) (event.getX() / 40);
             int y = (int) (event.getY() / 40);
+            if (move[y][x]== 0){
             move[y][x] = turn ? 1 : 2;
+    
             Image image = new Image(new FileInputStream(turn ? "./src/assets/cross.png" : "./src/assets/zero.png"));
             ImageView imageView = new ImageView(image);
             imageView.setX(x * 40);
@@ -62,10 +68,90 @@ public class BoardController implements Initializable {
             System.out.println(x + " " + y);
             boardContainer.getChildren().add(imageView);
             turn = !turn;
+            if (checkWin(move)){
+                showAlertWithoutHeaderText();
+                Platform.exit();
+                System.exit(0);
+            }
+            }
             log();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
+    public boolean checkWin(int[][] matrix)
+    {
+        int cotTmp=0;
+        int hangTmp=0;
+        int diem=0;
+       for(int hang=0;hang<15;hang++)
+       {
+           for(int cot=0;cot<15;cot++)
+           {
+               diem=0;
+               cotTmp=cot;
+               while(cotTmp<15&&(matrix[hang][cotTmp]==matrix[hang][cot]) && matrix[hang][cotTmp]!=0)
+               {
+                   diem++;
+                   cotTmp++;
+               }
+               if(diem==5)
+               {
+                   return true;
+               }
+               diem=0;
+               hangTmp=hang;
+               while(hangTmp<15&&(matrix[hangTmp][cot]==matrix[hang][cot] && matrix[hangTmp][cot]!=0))
+               {
+                   diem++;
+                   hangTmp++;
+               }
+               if(diem==5)
+               {
+                   return true;
+               }
+               //CheoCongCong(dauHuyen)
+               diem=0;
+               hangTmp=hang;
+               cotTmp=cot;
+               while(hangTmp<15&&cotTmp<15&&(matrix[hangTmp][cotTmp]==matrix[hang][cot])&&matrix[hangTmp][cotTmp]!=0)
+               {
+                   diem++;
+                   hangTmp++;
+                   cotTmp++;
+               }
+                if(diem==5)
+               {
+                   return true;
+               }
+               diem=0;
+               hangTmp=hang;
+               cotTmp=cot;
+               while(hangTmp<15&&cotTmp>=0&&(matrix[hangTmp][cotTmp]==matrix[hang][cot])&&matrix[hangTmp][cotTmp]!=0)
+               {
+                   diem++;
+                   hangTmp++;
+                   cotTmp--;
+               }
+                if(diem==5)
+               {
+                   return true;
+               }
 
+               
+
+               
+           }
+       }
+       return false;
+    }
+        
+    private void showAlertWithoutHeaderText() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("WIN");
+        // Header Text: null
+        alert.setHeaderText(null);
+        alert.setContentText("Win roii !");
+        alert.showAndWait();
+    }
 }
