@@ -26,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
  * @author ASUS
  */
 public class BoardController implements Initializable {
+
     @FXML
     AnchorPane boardContainer;
     boolean turn = false;
@@ -40,112 +41,120 @@ public class BoardController implements Initializable {
             Arrays.fill(row, 0);
         }
     }
-    
-    private void log() {
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                System.out.print(move[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
 
     @FXML
     private void handleButtonAction(MouseEvent event) {
         try {
-            
-            int x = (int) (event.getX() / 40);
-            int y = (int) (event.getY() / 40);
-            if (move[y][x]== 0){
-            move[y][x] = turn ? 1 : 2;
-    
-            Image image = new Image(new FileInputStream(turn ? "./src/assets/cross.png" : "./src/assets/zero.png"));
-            ImageView imageView = new ImageView(image);
-            imageView.setX(x * 40);
-            imageView.setY(y * 40);
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            System.out.println(x + " " + y);
-            boardContainer.getChildren().add(imageView);
-            turn = !turn;
-            if (checkWin(move)){
-                showAlertWithoutHeaderText();
-                Platform.exit();
-                System.exit(0);
+
+            int col = (int) (event.getX() / 40);
+            int row = (int) (event.getY() / 40);
+            if (move[row][col] == 0) {
+                move[row][col] = turn ? 1 : 2;
+
+                Image image = new Image(new FileInputStream(turn ? "./src/assets/cross.png" : "./src/assets/zero.png"));
+                ImageView imageView = new ImageView(image);
+                imageView.setX(col * 40);
+                imageView.setY(row * 40);
+                imageView.setFitHeight(40);
+                imageView.setFitWidth(40);
+                System.out.println(col + " " + row);
+                boardContainer.getChildren().add(imageView);
+                turn = !turn;
+                if (isWinning(col, row)) {
+                    showAlertWithoutHeaderText();
+                    Platform.exit();
+                    System.exit(0);
+                }
             }
-            }
-            log();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
-    public boolean checkWin(int[][] matrix)
-    {
-        int cotTmp=0;
-        int hangTmp=0;
-        int diem=0;
-       for(int hang=0;hang<15;hang++)
-       {
-           for(int cot=0;cot<15;cot++)
-           {
-               diem=0;
-               cotTmp=cot;
-               while(cotTmp<15&&(matrix[hang][cotTmp]==matrix[hang][cot]) && matrix[hang][cotTmp]!=0)
-               {
-                   diem++;
-                   cotTmp++;
-               }
-               if(diem==5)
-               {
-                   return true;
-               }
-               diem=0;
-               hangTmp=hang;
-               while(hangTmp<15&&(matrix[hangTmp][cot]==matrix[hang][cot] && matrix[hangTmp][cot]!=0))
-               {
-                   diem++;
-                   hangTmp++;
-               }
-               if(diem==5)
-               {
-                   return true;
-               }
-               //CheoCongCong(dauHuyen)
-               diem=0;
-               hangTmp=hang;
-               cotTmp=cot;
-               while(hangTmp<15&&cotTmp<15&&(matrix[hangTmp][cotTmp]==matrix[hang][cot])&&matrix[hangTmp][cotTmp]!=0)
-               {
-                   diem++;
-                   hangTmp++;
-                   cotTmp++;
-               }
-                if(diem==5)
-               {
-                   return true;
-               }
-               diem=0;
-               hangTmp=hang;
-               cotTmp=cot;
-               while(hangTmp<15&&cotTmp>=0&&(matrix[hangTmp][cotTmp]==matrix[hang][cot])&&matrix[hangTmp][cotTmp]!=0)
-               {
-                   diem++;
-                   hangTmp++;
-                   cotTmp--;
-               }
-                if(diem==5)
-               {
-                   return true;
-               }
 
-               
+    private boolean checkHorizontal(int x, int y) {
+        int count = 1;
+        int col = x;
 
-               
-           }
-       }
-       return false;
+        while (col < 14 && move[y][col] == move[y][col + 1]) {
+            count++;
+            col++;
+        }
+
+        col = x;
+        while (col > 0 && move[y][col] == move[y][col - 1]) {
+            count++;
+            col--;
+        }
+
+        return count >= 5;
     }
-        
+
+    private boolean checkVertical(int x, int y) {
+        int count = 1;
+        int row = y;
+
+        while (row < 14 && move[row][x] == move[row + 1][x]) {
+            count++;
+            row++;
+        }
+
+        row = y;
+        while (row > 0 && move[row][x] == move[row - 1][x]) {
+            count++;
+            row--;
+        }
+
+        return count >= 5;
+    }
+
+    private boolean checkLeftDiagonal(int x, int y) {
+        int count = 1;
+        int row = y;
+        int col = x;
+
+        while (row < 14 && col < 14 && move[row][col] == move[row + 1][col + 1]) {
+            count++;
+            row++;
+            col++;
+        }
+
+        row = y;
+        col = x;
+        while (row > 0 && col > 0 && move[row][col] == move[row - 1][col - 1]) {
+            count++;
+            row--;
+            col--;
+        }
+
+        return count >= 5;
+    }
+
+    private boolean checkRightDiagonal(int x, int y) {
+        int count = 1;
+        int row = y;
+        int col = x;
+
+        while (row < 14 && col > 0 && move[row][col] == move[row + 1][col - 1]) {
+            count++;
+            row++;
+            col--;
+        }
+
+        row = y;
+        col = x;
+        while (row > 0 && col < 14 && move[row][col] == move[row - 1][col + 1]) {
+            count++;
+            row--;
+            col++;
+        }
+
+        return count >= 5;
+    }
+
+    private boolean isWinning(int x, int y) {
+        return checkHorizontal(x, y) || checkVertical(x, y) || checkLeftDiagonal(x, y) || checkRightDiagonal(x, y);
+    }
+
     private void showAlertWithoutHeaderText() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("WIN");
