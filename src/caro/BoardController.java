@@ -17,8 +17,6 @@ import java.util.Arrays;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
