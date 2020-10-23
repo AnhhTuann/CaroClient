@@ -17,6 +17,8 @@ import java.util.Arrays;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -32,9 +34,6 @@ public class BoardController implements Initializable {
     boolean turn = false;
     int[][] move = new int[15][15];
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         for (int[] row : move) {
@@ -160,7 +159,7 @@ public class BoardController implements Initializable {
         alert.setTitle("WIN");
         // Header Text: null
         alert.setHeaderText(null);
-        alert.setContentText("Win roii !");
+        alert.setContentText("Player ? WIN !");
         alert.showAndWait();
     }
 }
