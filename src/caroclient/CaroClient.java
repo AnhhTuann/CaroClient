@@ -15,14 +15,16 @@ import javafx.stage.Stage;
  *
  * @author ASUS
  */
-public class Caro extends Application {
-    
+public class CaroClient extends Application {
+
     @Override
     public void start(Stage stage) throws Exception {
+        Client.setHost("127.0.0.1");
+        Client.setPort(3000);
         Parent root = FXMLLoader.load(getClass().getResource("Board.fxml"));
-        
+
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.show();
     }
@@ -33,5 +35,5 @@ public class Caro extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

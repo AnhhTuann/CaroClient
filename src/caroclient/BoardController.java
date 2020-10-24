@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.HashMap;
+
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -29,6 +31,7 @@ public class BoardController implements Initializable {
 
     @FXML
     AnchorPane boardContainer;
+    private Client client = Client.getInstance();
     boolean turn = false;
     int[][] move = new int[15][15];
 
@@ -46,6 +49,7 @@ public class BoardController implements Initializable {
             int col = (int) (event.getX() / 40);
             int row = (int) (event.getY() / 40);
             if (move[row][col] == 0) {
+                client.sendData("MOV:" + col + ";" + row);
                 move[row][col] = turn ? 1 : 2;
 
                 Image image = new Image(new FileInputStream(turn ? "./src/assets/cross.png" : "./src/assets/zero.png"));
