@@ -13,14 +13,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import javafx.application.Platform;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -32,136 +35,50 @@ public class BoardController implements Initializable {
     @FXML
     AnchorPane boardContainer;
     private Client client = Client.getInstance();
-    boolean turn = false;
-    int[][] move = new int[15][15];
+    private Image crossSprite;
+    private Image zeroSprite;
+    private Stage stage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        for (int[] row : move) {
-            Arrays.fill(row, 0);
+        try {
+            crossSprite = new Image(new FileInputStream("./src/assets/cross.png"));
+            zeroSprite = new Image(new FileInputStream("./src/assets/zero.png"));
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
         }
+
+        GameStateReadThread task = new GameStateReadThread(this);
+        Thread thread = new Thread(task);
+        thread.start();
+    }
+
+    public void drawMove(int col, int row, String fromPlayer) {
+        ImageView imageView = new ImageView(fromPlayer.equals(Client.getInstance().getId()) ? crossSprite : zeroSprite);
+        imageView.setX(col * 40);
+        imageView.setY(row * 40);
+        imageView.setFitHeight(40);
+        imageView.setFitWidth(40);
+        boardContainer.getChildren().add(imageView);
     }
 
     @FXML
     private void handleButtonAction(MouseEvent event) {
-        try {
-
-            int col = (int) (event.getX() / 40);
-            int row = (int) (event.getY() / 40);
-            if (move[row][col] == 0) {
-                client.sendData("MOV:" + col + ";" + row);
-                move[row][col] = turn ? 1 : 2;
-
-                Image image = new Image(new FileInputStream(turn ? "./src/assets/cross.png" : "./src/assets/zero.png"));
-                ImageView imageView = new ImageView(image);
-                imageView.setX(col * 40);
-                imageView.setY(row * 40);
-                imageView.setFitHeight(40);
-                imageView.setFitWidth(40);
-                System.out.println(col + " " + row);
-                boardContainer.getChildren().add(imageView);
-                turn = !turn;
-                if (isWinning(col, row)) {
-                    showAlertWithoutHeaderText();
-                    Platform.exit();
-                    System.exit(0);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+        int col = (int) (event.getX() / 40);
+        int row = (int) (event.getY() / 40);
+        client.sendData("MOV:" + col + ";" + row + ";" + Client.getInstance().getId());
     }
 
-    private boolean checkHorizontal(int x, int y) {
-        int count = 1;
-        int col = x;
-
-        while (col < 14 && move[y][col] == move[y][col + 1]) {
-            count++;
-            col++;
-        }
-
-        col = x;
-        while (col > 0 && move[y][col] == move[y][col - 1]) {
-            count++;
-            col--;
-        }
-
-        return count >= 5;
-    }
-
-    private boolean checkVertical(int x, int y) {
-        int count = 1;
-        int row = y;
-
-        while (row < 14 && move[row][x] == move[row + 1][x]) {
-            count++;
-            row++;
-        }
-
-        row = y;
-        while (row > 0 && move[row][x] == move[row - 1][x]) {
-            count++;
-            row--;
-        }
-
-        return count >= 5;
-    }
-
-    private boolean checkLeftDiagonal(int x, int y) {
-        int count = 1;
-        int row = y;
-        int col = x;
-
-        while (row < 14 && col < 14 && move[row][col] == move[row + 1][col + 1]) {
-            count++;
-            row++;
-            col++;
-        }
-
-        row = y;
-        col = x;
-        while (row > 0 && col > 0 && move[row][col] == move[row - 1][col - 1]) {
-            count++;
-            row--;
-            col--;
-        }
-
-        return count >= 5;
-    }
-
-    private boolean checkRightDiagonal(int x, int y) {
-        int count = 1;
-        int row = y;
-        int col = x;
-
-        while (row < 14 && col > 0 && move[row][col] == move[row + 1][col - 1]) {
-            count++;
-            row++;
-            col--;
-        }
-
-        row = y;
-        col = x;
-        while (row > 0 && col < 14 && move[row][col] == move[row - 1][col + 1]) {
-            count++;
-            row--;
-            col++;
-        }
-
-        return count >= 5;
-    }
-
-    private boolean isWinning(int x, int y) {
-        return checkHorizontal(x, y) || checkVertical(x, y) || checkLeftDiagonal(x, y) || checkRightDiagonal(x, y);
-    }
-
-    private void showAlertWithoutHeaderText() {
+    public void showEndGameDialog(boolean isWinner) {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("WIN");
-        // Header Text: null
+        alert.setTitle("Kết Thúc");
         alert.setHeaderText(null);
-        alert.setContentText("Player ? WIN !");
+        alert.setContentText(isWinner ? "Thắng rồi! Vui quá!" : "Thua rồi! Buồn quá!");
+        alert.initOwner(stage);
         alert.showAndWait();
+    }
+    
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.UUID;
 
 public class Client {
 	private static Client instance;
@@ -15,6 +16,7 @@ public class Client {
 	private Socket socket;
 	private BufferedWriter out;
 	private BufferedReader in;
+	private String id;
 
 	private Client() {
 		try {
@@ -26,6 +28,14 @@ public class Client {
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public BufferedReader getReader() {
