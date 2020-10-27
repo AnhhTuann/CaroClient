@@ -21,10 +21,10 @@ public class CaroClient extends Application {
     public void start(Stage stage) throws Exception {
         Client.setHost("127.0.0.1");
         Client.setPort(3000);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisterForm.fxml"));
         Parent root = loader.load();
-        BoardController controller = loader.getController();
-        controller.setStage(stage);
+        //BoardController controller = loader.getController();
+        //controller.setStage(stage);
 
         Scene scene = new Scene(root);
 

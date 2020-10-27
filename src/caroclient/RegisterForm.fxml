@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="caroclient.RegisterFormController">
+   <children>
+      <Group layoutY="-69.0">
+         <children>
+            <Label layoutX="207.0" layoutY="83.0" text="Email" />
+            <TextField fx:id="emailTxt" layoutX="207.0" layoutY="104.0" />
+         </children>
+      </Group>
+      <Group layoutY="-17.0">
+         <children>
+            <Label layoutX="207.0" layoutY="83.0" text="Password" />
+            <TextField fx:id="passwordTxt" layoutX="207.0" layoutY="104.0" />
+         </children>
+      </Group>
+      <Group layoutY="35.0">
+         <children>
+            <Label layoutX="207.0" layoutY="83.0" text="Confirm Password" />
+            <TextField fx:id="confirmPasswordTxt" layoutX="207.0" layoutY="104.0" />
+         </children>
+      </Group>
+      <Group layoutY="87.0">
+         <children>
+            <Label layoutX="207.0" layoutY="83.0" text="Full Name" />
+            <TextField fx:id="fullnameTxt" layoutX="207.0" layoutY="104.0" />
+         </children>
+      </Group>
+      <Group layoutY="-4.0">
+         <children>
+            <ChoiceBox fx:id="genderSelection" layoutX="207.0" layoutY="247.0" prefWidth="150.0" />
+            <Label layoutX="207.0" layoutY="226.0" text="Gender" />
+         </children>
+      </Group>
+      <Group layoutY="-50.0">
+         <children>
+            <DatePicker fx:id="birthdayDate" layoutX="207.0" layoutY="346.0" />
+            <Label layoutX="207.0" layoutY="325.0" text="Birthday" />
+         </children>
+      </Group>
+      <Button fx:id="registerButton" layoutX="245.0" layoutY="355.0" mnemonicParsing="false" onMouseClicked="#submit" text="Register" />
+   </children>
+</AnchorPane>
