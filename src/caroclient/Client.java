@@ -12,8 +12,8 @@ public class Client {
 	private static int port;
 	private static String host;
 	private Socket socket;
-	private BufferedWriter out;
-	private BufferedReader in;
+	private static BufferedWriter out;
+	private static BufferedReader in;
 	private String id;
 
 	private static class ClientHolder {

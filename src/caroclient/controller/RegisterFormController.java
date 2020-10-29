@@ -13,10 +13,17 @@ import java.util.regex.Pattern;
 
 import caroclient.Client;
 import caroclient.thread.RegisterFormThread;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -28,6 +35,7 @@ import javafx.scene.input.MouseEvent;
  * @author ASUS
  */
 public class RegisterFormController extends BaseController {
+
     @FXML
     private ChoiceBox<String> genderChoiceBox;
     @FXML
@@ -35,11 +43,13 @@ public class RegisterFormController extends BaseController {
     @FXML
     private PasswordField passwordField;
     @FXML
-    private PasswordField confirmPasswordField;
+    private PasswordField comfirmPasswordField;
     @FXML
     private TextField fullnameTextField;
     @FXML
     private DatePicker birthdayDatePicker;
+    @FXML
+    private Hyperlink goToLoginLink;
     private String email = "";
     private String password = "";
     private String confirmPassword = "";
@@ -88,6 +98,8 @@ public class RegisterFormController extends BaseController {
         alert.setContentText("Your account is ready to use!");
         alert.initOwner(stage);
         alert.showAndWait();
+
+        goToLogin();
     }
 
     @Override
@@ -101,12 +113,26 @@ public class RegisterFormController extends BaseController {
     }
 
     @FXML
+    public void goToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/LoginForm.fxml"));
+            Parent root = loader.load();
+            LoginFormController controller = loader.getController();
+            controller.setStage(stage);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterFormController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
     public void submit(MouseEvent event) {
         String selectedGender = genderChoiceBox.getValue();
 
         email = emailTextField.getText();
         password = passwordField.getText();
-        confirmPassword = confirmPasswordField.getText();
+        confirmPassword = comfirmPasswordField.getText();
         fullname = fullnameTextField.getText();
         birthday = birthdayDatePicker.getValue();
 

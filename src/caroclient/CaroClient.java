@@ -5,6 +5,7 @@
  */
 package caroclient;
 
+import caroclient.controller.LoginFormController;
 import caroclient.controller.RegisterFormController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
