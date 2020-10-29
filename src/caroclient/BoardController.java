@@ -13,12 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import javafx.application.Platform;
-import javafx.geometry.Bounds;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
@@ -77,7 +71,7 @@ public class BoardController implements Initializable {
         alert.initOwner(stage);
         alert.showAndWait();
     }
-    
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
