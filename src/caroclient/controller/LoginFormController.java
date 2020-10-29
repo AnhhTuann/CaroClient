@@ -6,7 +6,6 @@
 package caroclient.controller;
 
 import caroclient.Client;
-import caroclient.thread.LoginFormThread;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,7 +21,7 @@ import javafx.scene.input.MouseEvent;
  *
  * @author ASUS
  */
-public class LoginFormController extends BaseController {
+public class LoginFormController extends ControllerBase {
 
     @FXML
     private TextField emailTextField;
@@ -34,14 +33,11 @@ public class LoginFormController extends BaseController {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        LoginFormThread task = new LoginFormThread(this);
-        Thread thread = new Thread(task);
-        thread.start();
     }
 
     @FXML
     private void submit(MouseEvent event) {
-        Client.getInstance().sendData("LOGIN:" + emailTextField.getText() + ";" + passwordField.getText());
+        Client.sendData("LOGIN:" + emailTextField.getText() + ";" + passwordField.getText());
     }
 
     public void showErrorDialog(String error) {

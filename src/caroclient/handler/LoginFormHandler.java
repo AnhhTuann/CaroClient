@@ -1,12 +1,12 @@
-package caroclient.thread;
+package caroclient.handler;
 
 import caroclient.controller.LoginFormController;
 import javafx.application.Platform;
 
-public class LoginFormThread extends BaseThread {
+public class LoginFormHandler extends HandlerBase {
     LoginFormController ui;
 
-    public LoginFormThread(LoginFormController ui) {
+    public LoginFormHandler(LoginFormController ui) {
         this.ui = ui;
     }
 

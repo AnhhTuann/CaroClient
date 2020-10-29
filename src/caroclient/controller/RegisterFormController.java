@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import caroclient.Client;
-import caroclient.thread.RegisterFormThread;
+import caroclient.handler.LoginFormHandler;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +34,7 @@ import javafx.scene.input.MouseEvent;
  *
  * @author ASUS
  */
-public class RegisterFormController extends BaseController {
+public class RegisterFormController extends ControllerBase {
 
     @FXML
     private ChoiceBox<String> genderChoiceBox;
@@ -106,10 +106,6 @@ public class RegisterFormController extends BaseController {
     public void initialize(URL url, ResourceBundle rb) {
         genderChoiceBox.getItems().addAll("Male", "Female", "Others");
         genderChoiceBox.setValue("Male");
-
-        RegisterFormThread task = new RegisterFormThread(this);
-        Thread thread = new Thread(task);
-        thread.start();
     }
 
     @FXML
@@ -118,8 +114,10 @@ public class RegisterFormController extends BaseController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/LoginForm.fxml"));
             Parent root = loader.load();
             LoginFormController controller = loader.getController();
-            controller.setStage(stage);
             Scene scene = new Scene(root);
+
+            controller.setStage(stage);
+            Client.registerHandler(new LoginFormHandler(controller));
             stage.setScene(scene);
         } catch (IOException ex) {
             Logger.getLogger(RegisterFormController.class.getName()).log(Level.SEVERE, null, ex);
@@ -153,7 +151,7 @@ public class RegisterFormController extends BaseController {
 
         if (validate()) {
             String data = String.join(";", email, password, fullname, gender, birthday.toString());
-            Client.getInstance().sendData("REG:" + data);
+            Client.sendData("REG:" + data);
         }
     }
 }

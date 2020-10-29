@@ -6,42 +6,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
+
+import caroclient.handler.HandlerBase;
 
 public class Client {
 	private static int port;
 	private static String host;
-	private Socket socket;
+	private static String id;
+	private static Socket socket = null;
 	private static BufferedWriter out;
 	private static BufferedReader in;
-	private String id;
+	private static HandlerBase handler;
 
-	private static class ClientHolder {
-		static final Client INSTANCE = new Client();
+	public static void setId(String id) {
+		Client.id = id;
 	}
 
-	private Client() {
-		try {
-			socket = new Socket(host, port);
-			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		} catch (UnknownHostException e) {
-			System.err.println(e.getMessage());
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		}
-	}
-
-	public BufferedReader getReader() {
-		return in;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getId() {
-		return this.id;
+	public static String getId() {
+		return id;
 	}
 
 	public static void setPort(int port) {
@@ -52,11 +34,42 @@ public class Client {
 		Client.host = host;
 	}
 
-	public static Client getInstance() {
-		return ClientHolder.INSTANCE;
+	private static void listen() {
+		while (true) {
+			try {
+				String[] response = in.readLine().split(":");
+				handler.handleResponse(response[0], response[1].split(";"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-	public void sendData(String data) {
+	private static void createClient() {
+		try {
+			socket = new Socket(host, port);
+			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+			Runnable runnable = () -> {
+				listen();
+			};
+			Thread thread = new Thread(runnable);
+			thread.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void registerHandler(HandlerBase handler) {
+		Client.handler = handler;
+
+		if (socket == null) {
+			createClient();
+		}
+	}
+
+	public static void sendData(String data) {
 		try {
 			out.write(data + "\n");
 			out.flush();

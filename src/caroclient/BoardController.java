@@ -28,7 +28,6 @@ public class BoardController implements Initializable {
 
     @FXML
     AnchorPane boardContainer;
-    private Client client = Client.getInstance();
     private Image crossSprite;
     private Image zeroSprite;
     private Stage stage;
@@ -41,14 +40,10 @@ public class BoardController implements Initializable {
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
-
-        GameStateReadThread task = new GameStateReadThread(this);
-        Thread thread = new Thread(task);
-        thread.start();
     }
 
     public void drawMove(int col, int row, String fromPlayer) {
-        ImageView imageView = new ImageView(fromPlayer.equals(Client.getInstance().getId()) ? crossSprite : zeroSprite);
+        ImageView imageView = new ImageView(fromPlayer.equals(Client.getId()) ? crossSprite : zeroSprite);
         imageView.setX(col * 40);
         imageView.setY(row * 40);
         imageView.setFitHeight(40);
@@ -60,7 +55,7 @@ public class BoardController implements Initializable {
     private void handleButtonAction(MouseEvent event) {
         int col = (int) (event.getX() / 40);
         int row = (int) (event.getY() / 40);
-        client.sendData("MOV:" + col + ";" + row + ";" + Client.getInstance().getId());
+        Client.sendData("MOV:" + col + ";" + row + ";" + Client.getId());
     }
 
     public void showEndGameDialog(boolean isWinner) {

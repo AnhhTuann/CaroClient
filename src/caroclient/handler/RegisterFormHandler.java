@@ -1,12 +1,12 @@
-package caroclient.thread;
+package caroclient.handler;
 
 import caroclient.controller.RegisterFormController;
 import javafx.application.Platform;
 
-public class RegisterFormThread extends BaseThread {
+public class RegisterFormHandler extends HandlerBase {
 	private RegisterFormController ui;
 
-	public RegisterFormThread(RegisterFormController ui) {
+	public RegisterFormHandler(RegisterFormController ui) {
 		this.ui = ui;
 	}
 
