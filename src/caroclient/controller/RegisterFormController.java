@@ -12,10 +12,9 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import caroclient.Client;
-import caroclient.handler.LoginFormHandler;
+import caroclient.handler.RegisterFormHandler;
+
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +22,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -48,8 +46,6 @@ public class RegisterFormController extends ControllerBase {
     private TextField fullnameTextField;
     @FXML
     private DatePicker birthdayDatePicker;
-    @FXML
-    private Hyperlink goToLoginLink;
     private String email = "";
     private String password = "";
     private String confirmPassword = "";
@@ -106,6 +102,7 @@ public class RegisterFormController extends ControllerBase {
     public void initialize(URL url, ResourceBundle rb) {
         genderChoiceBox.getItems().addAll("Male", "Female", "Others");
         genderChoiceBox.setValue("Male");
+        Client.registerHandler(new RegisterFormHandler(this));
     }
 
     @FXML
@@ -117,10 +114,9 @@ public class RegisterFormController extends ControllerBase {
             Scene scene = new Scene(root);
 
             controller.setStage(stage);
-            Client.registerHandler(new LoginFormHandler(controller));
             stage.setScene(scene);
         } catch (IOException ex) {
-            Logger.getLogger(RegisterFormController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 

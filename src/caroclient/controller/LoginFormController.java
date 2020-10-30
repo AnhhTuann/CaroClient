@@ -6,10 +6,17 @@
 package caroclient.controller;
 
 import caroclient.Client;
+import caroclient.handler.LoginFormHandler;
+import caroclient.handler.RegisterFormHandler;
+import caroclient.model.Account;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -33,25 +40,50 @@ public class LoginFormController extends ControllerBase {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Client.registerHandler(new LoginFormHandler(this));
     }
 
     @FXML
-    private void submit(MouseEvent event) {
+    public void submit(MouseEvent event) {
         Client.sendData("LOGIN:" + emailTextField.getText() + ";" + passwordField.getText());
+    }
+
+    @FXML
+    public void goToRegister() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/RegisterForm.fxml"));
+            Parent root = loader.load();
+            RegisterFormController controller = loader.getController();
+            Scene scene = new Scene(root);
+
+            controller.setStage(stage);
+            Client.registerHandler(new RegisterFormHandler(controller));
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void goToHub(Account account) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Hub.fxml"));
+            Parent root = loader.load();
+            HubController controller = loader.getController();
+            Scene scene = new Scene(root);
+
+            controller.setStage(stage);
+            controller.setAccount(account);
+            // Client.registerHandler(new LoginFormHandler(controller));
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void showErrorDialog(String error) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Login Failed!");
         alert.setContentText(error);
-        alert.initOwner(stage);
-        alert.showAndWait();
-    }
-
-    public void showSuccessDialog() {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Welcome!");
-        alert.setContentText("Welcome!");
         alert.initOwner(stage);
         alert.showAndWait();
     }

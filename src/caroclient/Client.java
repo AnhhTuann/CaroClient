@@ -6,17 +6,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import caroclient.handler.HandlerBase;
 
 public class Client {
-	private static int port;
-	private static String host;
 	private static String id;
 	private static Socket socket = null;
 	private static BufferedWriter out;
 	private static BufferedReader in;
-	private static HandlerBase handler;
+	private static ArrayList<HandlerBase> handlers = new ArrayList<HandlerBase>();
 
 	public static void setId(String id) {
 		Client.id = id;
@@ -26,26 +25,21 @@ public class Client {
 		return id;
 	}
 
-	public static void setPort(int port) {
-		Client.port = port;
-	}
-
-	public static void setHost(String host) {
-		Client.host = host;
-	}
-
 	private static void listen() {
 		while (true) {
 			try {
 				String[] response = in.readLine().split(":");
-				handler.handleResponse(response[0], response[1].split(";"));
+
+				for (HandlerBase handler : handlers) {
+					handler.handleResponse(response[0], response[1].split(";"));
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private static void createClient() {
+	public static void connect(String host, int port) {
 		try {
 			socket = new Socket(host, port);
 			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -62,11 +56,7 @@ public class Client {
 	}
 
 	public static void registerHandler(HandlerBase handler) {
-		Client.handler = handler;
-
-		if (socket == null) {
-			createClient();
-		}
+		Client.handlers.add(handler);
 	}
 
 	public static void sendData(String data) {
