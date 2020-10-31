@@ -73,7 +73,6 @@ public class LoginFormController extends ControllerBase {
 
             controller.setStage(stage);
             controller.setAccount(account);
-            // Client.registerHandler(new LoginFormHandler(controller));
             stage.setScene(scene);
         } catch (IOException ex) {
             ex.printStackTrace();

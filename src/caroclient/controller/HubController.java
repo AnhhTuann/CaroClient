@@ -8,9 +8,13 @@ package caroclient.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import caroclient.Client;
+import caroclient.handler.HubHandler;
 import caroclient.model.Account;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * FXML Controller class
@@ -27,11 +31,19 @@ public class HubController extends ControllerBase {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Client.registerHandler(new HubHandler(this));
     }
 
     public void setAccount(Account account) {
         this.account = account;
         playerNameLabel.setText(this.account.getFullname());
+    }
+
+    public void showFoundMatchDialog() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Match found!");
+        alert.setContentText("We have found for you an opponent! Please accept!");
+        alert.initOwner(stage);
+        alert.showAndWait();
     }
 }
