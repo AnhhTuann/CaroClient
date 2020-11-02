@@ -6,7 +6,6 @@
 package caroclient;
 
 import caroclient.controller.LoginFormController;
-import caroclient.controller.RegisterFormController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,9 +22,9 @@ public class CaroClient extends Application {
     public void start(Stage stage) throws Exception {
         Client.connect("127.0.0.1", 3000);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisterForm.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginForm.fxml"));
         Parent root = loader.load();
-        RegisterFormController controller = loader.getController();
+        LoginFormController controller = loader.getController();
         Scene scene = new Scene(root);
 
         controller.setStage(stage);

@@ -1,5 +1,6 @@
 package caroclient.handler;
 
+import caroclient.Client;
 import caroclient.controller.LoginFormController;
 import caroclient.model.Account;
 import javafx.application.Platform;
@@ -21,9 +22,11 @@ public class LoginFormHandler extends HandlerBase {
                 break;
             }
             case "LOGIN_OK": {
+                Account acc = new Account(data[0], data[1], data[2], Integer.parseInt(data[3]), data[4]);
+
+                Client.setAccount(acc);
                 Platform.runLater(() -> {
-                    Account acc = new Account(data[0], data[1], data[2], Integer.parseInt(data[3]), data[4]);
-                    ui.goToHub(acc);
+                    ui.goToHub();
                 });
                 break;
             }

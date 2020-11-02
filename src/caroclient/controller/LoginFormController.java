@@ -7,8 +7,6 @@ package caroclient.controller;
 
 import caroclient.Client;
 import caroclient.handler.LoginFormHandler;
-import caroclient.handler.RegisterFormHandler;
-import caroclient.model.Account;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,14 +55,13 @@ public class LoginFormController extends ControllerBase {
             Scene scene = new Scene(root);
 
             controller.setStage(stage);
-            Client.registerHandler(new RegisterFormHandler(controller));
             stage.setScene(scene);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void goToHub(Account account) {
+    public void goToHub() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Hub.fxml"));
             Parent root = loader.load();
@@ -72,7 +69,6 @@ public class LoginFormController extends ControllerBase {
             Scene scene = new Scene(root);
 
             controller.setStage(stage);
-            controller.setAccount(account);
             stage.setScene(scene);
         } catch (IOException ex) {
             ex.printStackTrace();
