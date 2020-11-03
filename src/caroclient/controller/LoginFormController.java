@@ -38,7 +38,8 @@ public class LoginFormController extends ControllerBase {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Client.registerHandler(new LoginFormHandler(this));
+        handler = new LoginFormHandler(this);
+        Client.registerHandler(handler);
     }
 
     @FXML
@@ -54,6 +55,7 @@ public class LoginFormController extends ControllerBase {
             RegisterFormController controller = loader.getController();
             Scene scene = new Scene(root);
 
+            Client.unregisterHandler(handler);
             controller.setStage(stage);
             stage.setScene(scene);
         } catch (IOException ex) {
@@ -68,6 +70,7 @@ public class LoginFormController extends ControllerBase {
             HubController controller = loader.getController();
             Scene scene = new Scene(root);
 
+            Client.unregisterHandler(handler);
             controller.setStage(stage);
             stage.setScene(scene);
         } catch (IOException ex) {

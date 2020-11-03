@@ -42,7 +42,8 @@ public class HubController extends ControllerBase {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Client.registerHandler(new HubHandler(this));
+        handler = new HubHandler(this);
+        Client.registerHandler(handler);
         playerNameLabel.setText(Client.getAccount().getFullname());
         Client.sendData("RDY:" + Client.getAccount().getId());
 
@@ -70,6 +71,7 @@ public class HubController extends ControllerBase {
             BoardController controller = loader.getController();
             Scene scene = new Scene(root);
 
+            Client.unregisterHandler(handler);
             controller.setStage(stage);
             stage.setScene(scene);
         } catch (IOException ex) {

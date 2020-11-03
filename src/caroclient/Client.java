@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 import caroclient.handler.HandlerBase;
 import caroclient.model.Account;
@@ -17,7 +16,7 @@ public class Client {
 	private static Socket socket = null;
 	private static BufferedWriter out;
 	private static BufferedReader in;
-	private static Map<String, HandlerBase> handlers = new HashMap<>();
+	private static ArrayList<HandlerBase> handlers = new ArrayList<>();
 	private static Account account;
 
 	public static void setId(String id) {
@@ -33,7 +32,7 @@ public class Client {
 			try {
 				String[] response = in.readLine().split(":");
 
-				for (HandlerBase handler : handlers.values()) {
+				for (HandlerBase handler : handlers) {
 					handler.handleResponse(response[0], response[1].split(";"));
 				}
 			} catch (IOException e) {
@@ -59,10 +58,11 @@ public class Client {
 	}
 
 	public static void registerHandler(HandlerBase handler) {
-		String handlerName = handler.getClass().getSimpleName();
-		if (!handlers.containsKey(handlerName)) {
-			handlers.put(handlerName, handler);
-		}
+		handlers.add(handler);
+	}
+
+	public static void unregisterHandler(HandlerBase handler) {
+		handlers.remove(handler);
 	}
 
 	public static void sendData(String data) {

@@ -102,7 +102,8 @@ public class RegisterFormController extends ControllerBase {
     public void initialize(URL url, ResourceBundle rb) {
         genderChoiceBox.getItems().addAll("Male", "Female", "Others");
         genderChoiceBox.setValue("Male");
-        Client.registerHandler(new RegisterFormHandler(this));
+        handler = new RegisterFormHandler(this);
+        Client.registerHandler(handler);
     }
 
     @FXML
@@ -113,6 +114,7 @@ public class RegisterFormController extends ControllerBase {
             LoginFormController controller = loader.getController();
             Scene scene = new Scene(root);
 
+            Client.unregisterHandler(handler);
             controller.setStage(stage);
             stage.setScene(scene);
         } catch (IOException ex) {

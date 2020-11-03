@@ -10,10 +10,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import caroclient.Client;
+import caroclient.handler.BoardHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
@@ -39,10 +45,13 @@ public class BoardController extends ControllerBase {
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
+
+        handler = new BoardHandler(this);
+        Client.registerHandler(handler);
     }
 
     public void drawMove(int col, int row, String fromPlayer) {
-        ImageView imageView = new ImageView(fromPlayer.equals(Client.getId()) ? crossSprite : zeroSprite);
+        ImageView imageView = new ImageView(fromPlayer.equals(Client.getAccount().getId()) ? crossSprite : zeroSprite);
         imageView.setX(col * 40);
         imageView.setY(row * 40);
         imageView.setFitHeight(40);
@@ -54,15 +63,31 @@ public class BoardController extends ControllerBase {
     private void handleButtonAction(MouseEvent event) {
         int col = (int) (event.getX() / 40);
         int row = (int) (event.getY() / 40);
-        // Client.sendData("MOV:" + col + ";" + row + ";" + Client.getId());
+        Client.sendData("MOV:" + col + ";" + row + ";" + Client.getAccount().getId());
     }
 
-    public void showEndGameDialog(boolean isWinner) {
+    public void showGameOverDialog(boolean isWinner) {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Kết Thúc");
-        alert.setHeaderText(null);
-        alert.setContentText(isWinner ? "Thắng rồi! Vui quá!" : "Thua rồi! Buồn quá!");
+
+        alert.setTitle("GameOver");
+        alert.setContentText(isWinner ? "CONGRATULATION! YOU WIN!" : "SORRY! YOU LOSE!");
         alert.initOwner(stage);
         alert.showAndWait();
+        goToHub();
+    }
+
+    private void goToHub() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Hub.fxml"));
+            Parent root = loader.load();
+            HubController controller = loader.getController();
+            Scene scene = new Scene(root);
+
+            Client.unregisterHandler(handler);
+            controller.setStage(stage);
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
