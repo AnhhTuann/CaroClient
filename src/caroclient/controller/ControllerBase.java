@@ -1,7 +1,13 @@
 package caroclient.controller;
 
+import java.io.IOException;
+
+import caroclient.Client;
 import caroclient.handler.HandlerBase;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public abstract class ControllerBase implements Initializable {
@@ -10,5 +16,20 @@ public abstract class ControllerBase implements Initializable {
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
+	}
+
+	public void changeScene(String sceneName) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
+			Parent root = loader.load();
+			ControllerBase controller = loader.getController();
+			Scene scene = new Scene(root);
+
+			controller.setStage(stage);
+			stage.setScene(scene);
+			Client.unregisterHandler(handler);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

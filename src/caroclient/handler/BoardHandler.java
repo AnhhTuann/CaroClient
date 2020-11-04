@@ -14,8 +14,7 @@ public class BoardHandler extends HandlerBase {
 	@Override
 	public void handleResponse(String command, String[] data) {
 		switch (command) {
-			case "MOV": {
-				System.out.println("New move");
+			case "MOVE": {
 				int col = Integer.parseInt(data[0]);
 				int row = Integer.parseInt(data[1]);
 
@@ -24,7 +23,7 @@ public class BoardHandler extends HandlerBase {
 				});
 				break;
 			}
-			case "END": {
+			case "GAMEOVER": {
 				Platform.runLater(() -> {
 					ui.showGameOverDialog(Client.getAccount().getId().equals(data[0]));
 				});

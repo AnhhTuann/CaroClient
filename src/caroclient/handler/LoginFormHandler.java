@@ -15,7 +15,7 @@ public class LoginFormHandler extends HandlerBase {
     @Override
     public void handleResponse(String command, String[] data) {
         switch (command) {
-            case "LOGIN_ERR": {
+            case "LOGIN_ERROR": {
                 Platform.runLater(() -> {
                     ui.showErrorDialog(data[0]);
                 });
@@ -26,7 +26,7 @@ public class LoginFormHandler extends HandlerBase {
 
                 Client.setAccount(acc);
                 Platform.runLater(() -> {
-                    ui.goToHub();
+                    ui.changeScene("/caroclient/Hub.fxml");
                 });
                 break;
             }

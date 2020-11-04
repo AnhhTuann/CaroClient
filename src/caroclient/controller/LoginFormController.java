@@ -8,13 +8,9 @@ package caroclient.controller;
 import caroclient.Client;
 import caroclient.handler.LoginFormHandler;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -49,33 +45,7 @@ public class LoginFormController extends ControllerBase {
 
     @FXML
     public void goToRegister() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/RegisterForm.fxml"));
-            Parent root = loader.load();
-            RegisterFormController controller = loader.getController();
-            Scene scene = new Scene(root);
-
-            Client.unregisterHandler(handler);
-            controller.setStage(stage);
-            stage.setScene(scene);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void goToHub() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Hub.fxml"));
-            Parent root = loader.load();
-            HubController controller = loader.getController();
-            Scene scene = new Scene(root);
-
-            Client.unregisterHandler(handler);
-            controller.setStage(stage);
-            stage.setScene(scene);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        changeScene("/caroclient/RegisterForm.fxml");
     }
 
     public void showErrorDialog(String error) {

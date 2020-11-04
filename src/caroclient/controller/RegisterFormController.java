@@ -14,11 +14,7 @@ import java.util.regex.Pattern;
 import caroclient.Client;
 import caroclient.handler.RegisterFormHandler;
 
-import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -52,6 +48,15 @@ public class RegisterFormController extends ControllerBase {
     private String fullname = "";
     private String gender = "";
     private LocalDate birthday = null;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        genderChoiceBox.getItems().addAll("Male", "Female", "Others");
+        genderChoiceBox.setValue("Male");
+
+        handler = new RegisterFormHandler(this);
+        Client.registerHandler(handler);
+    }
 
     private boolean validate() {
         Pattern emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
@@ -91,35 +96,16 @@ public class RegisterFormController extends ControllerBase {
     public void showSuccessDialog() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Done!");
-        alert.setContentText("Your account is ready to use!");
+        alert.setContentText("Registration Completed!");
         alert.initOwner(stage);
         alert.showAndWait();
 
         goToLogin();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        genderChoiceBox.getItems().addAll("Male", "Female", "Others");
-        genderChoiceBox.setValue("Male");
-        handler = new RegisterFormHandler(this);
-        Client.registerHandler(handler);
-    }
-
     @FXML
     public void goToLogin() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/LoginForm.fxml"));
-            Parent root = loader.load();
-            LoginFormController controller = loader.getController();
-            Scene scene = new Scene(root);
-
-            Client.unregisterHandler(handler);
-            controller.setStage(stage);
-            stage.setScene(scene);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        changeScene("/caroclient/LoginForm.fxml");
     }
 
     @FXML
@@ -149,7 +135,7 @@ public class RegisterFormController extends ControllerBase {
 
         if (validate()) {
             String data = String.join(";", email, password, fullname, gender, birthday.toString());
-            Client.sendData("REG:" + data);
+            Client.sendData("REGISTER:" + data);
         }
     }
 }

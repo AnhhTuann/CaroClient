@@ -13,13 +13,13 @@ public class RegisterFormHandler extends HandlerBase {
 	@Override
 	public void handleResponse(String command, String[] data) {
 		switch (command) {
-			case "REG_ERR": {
+			case "REGISTER_ERROR": {
 				Platform.runLater(() -> {
 					ui.showErrorDialog(data[0]);
 				});
 				break;
 			}
-			case "REG_OK": {
+			case "REGISTER_OK": {
 				Platform.runLater(() -> {
 					ui.showSuccessDialog();
 				});

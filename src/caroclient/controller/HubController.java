@@ -5,7 +5,6 @@
  */
 package caroclient.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -13,9 +12,6 @@ import java.util.ResourceBundle;
 import caroclient.Client;
 import caroclient.handler.HubHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -44,8 +40,9 @@ public class HubController extends ControllerBase {
     public void initialize(URL url, ResourceBundle rb) {
         handler = new HubHandler(this);
         Client.registerHandler(handler);
+
         playerNameLabel.setText(Client.getAccount().getFullname());
-        Client.sendData("RDY:" + Client.getAccount().getId());
+        Client.sendData("READY:" + Client.getAccount().getId());
 
         matchFoundAlert.setTitle("Found a match!");
         waitForAnotherAlert.setTitle("Found a match!");
@@ -56,27 +53,12 @@ public class HubController extends ControllerBase {
         Optional<ButtonType> confirmation = matchFoundAlert.showAndWait();
 
         if (confirmation.get() == acceptButton) {
-            Client.sendData("MMK_ACP:Accept");
+            Client.sendData("ACCEPT_MATCHMAKING:Accept");
         } else {
-            Client.sendData("MMK_DEC:Decline");
+            Client.sendData("DECLINE_MATCHMAKING:Decline");
         }
 
         waitForAnotherAlert.show();
-    }
-
-    public void goToGameBoard() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Board.fxml"));
-            Parent root = loader.load();
-            BoardController controller = loader.getController();
-            Scene scene = new Scene(root);
-
-            Client.unregisterHandler(handler);
-            controller.setStage(stage);
-            stage.setScene(scene);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     public void closeAllDialog() {

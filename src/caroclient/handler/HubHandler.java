@@ -14,24 +14,24 @@ public class HubHandler extends HandlerBase {
 	@Override
 	public void handleResponse(String command, String[] data) {
 		switch (command) {
-			case "MMK": {
-				Client.sendData("RRN:Rerun stream");
+			case "MATCHMAKING": {
+				Client.sendData("NOTHING:Nothing");
 				Platform.runLater(() -> {
 					ui.showMatchFoundDialog();
 				});
 				break;
 			}
-			case "MMK_BCK": {
+			case "BACK_TO_QUEUE": {
 				Platform.runLater(() -> {
 					ui.closeAllDialog();
-					Client.sendData("RDY:Ready");
+					Client.sendData("READY:" + Client.getAccount().getId());
 				});
 				break;
 			}
-			case "MMK_NEW": {
+			case "NEW_MATCH": {
 				Platform.runLater(() -> {
 					ui.closeAllDialog();
-					ui.goToGameBoard();
+					ui.changeScene("/caroclient/Board.fxml");
 				});
 			}
 		}
