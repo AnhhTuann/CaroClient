@@ -1,6 +1,5 @@
 package caroclient.handler;
 
-import caroclient.Client;
 import caroclient.controller.BoardController;
 import javafx.application.Platform;
 
@@ -25,7 +24,7 @@ public class BoardHandler extends HandlerBase {
 			}
 			case "GAMEOVER": {
 				Platform.runLater(() -> {
-					ui.showGameOverDialog(Client.getAccount().getId().equals(data[0]));
+					ui.showGameOverDialog(data[0]);
 				});
 
 				break;

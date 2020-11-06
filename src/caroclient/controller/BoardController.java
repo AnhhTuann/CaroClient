@@ -61,11 +61,13 @@ public class BoardController extends ControllerBase {
         Client.sendData("MOVE:" + col + ";" + row + ";" + Client.getAccount().getId());
     }
 
-    public void showGameOverDialog(boolean isWinner) {
+    public void showGameOverDialog(String status) {
         Alert alert = new Alert(AlertType.INFORMATION);
+        String text = status.equals("DRAW") ? "DRAW! WELL PLAYED!"
+                : status.equals(Client.getAccount().getId()) ? "CONGRATULATION! YOU WIN!" : "SORRY! YOU LOSE!";
 
         alert.setTitle("GameOver");
-        alert.setContentText(isWinner ? "CONGRATULATION! YOU WIN!" : "SORRY! YOU LOSE!");
+        alert.setContentText(text);
         alert.initOwner(stage);
         alert.showAndWait();
         changeScene("/caroclient/Hub.fxml");
