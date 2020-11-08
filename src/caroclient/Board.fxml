@@ -22,7 +22,13 @@
       </AnchorPane>
       <VBox alignment="CENTER" layoutX="480.0" prefHeight="480.0" prefWidth="200.0">
          <children>
-            <Label fx:id="gameTimerLabel" styleClass="game-timer" text="09:59" />
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Pane fx:id="turnTimerIndicator" layoutX="25.0" layoutY="95.0" prefHeight="10.0" prefWidth="150.0" styleClass="turn-timer" />
+               </children>
+            </Pane>
+            <Label fx:id="gameTimerLabel" styleClass="game-timer" text="00:00" />
+            <Pane prefHeight="200.0" prefWidth="200.0" />
          </children>
       </VBox>
    </children>

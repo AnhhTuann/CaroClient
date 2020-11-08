@@ -23,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -34,12 +35,17 @@ public class BoardController extends ControllerBase {
     private AnchorPane boardContainer;
     @FXML
     private Label gameTimerLabel;
+    @FXML
+    private Pane turnTimerIndicator;
     private Image crossSprite;
     private Image zeroSprite;
     private Timer gameTimer;
+    private Timer turnTimer;
     private int gameInterval;
+    private int turnInterval;
     private final int spriteSize = 32;
     private final int gameDuration = 10 * 60;
+    private final int turnDuration = 30;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -55,10 +61,30 @@ public class BoardController extends ControllerBase {
 
         gameInterval = gameDuration;
         startGameTimer();
+
+        turnInterval = turnDuration;
+        startTurnTimer();
     }
 
     private String beautifyNumber(int n) {
         return n < 10 ? "0" + Integer.toString(n) : Integer.toString(n);
+    }
+
+    private void startTurnTimer() {
+        turnTimer = new Timer();
+        turnTimer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                if (turnInterval > 0) {
+                    Platform.runLater(() -> {
+                        turnTimerIndicator.setPrefWidth(turnTimerIndicator.getPrefWidth() - 5);
+                    });
+
+                    turnInterval--;
+                } else {
+                    turnTimer.cancel();
+                }
+            }
+        }, 0, 1000);
     }
 
     private void startGameTimer() {
@@ -110,6 +136,10 @@ public class BoardController extends ControllerBase {
 
         if (gameTimer != null) {
             gameTimer.cancel();
+        }
+
+        if (turnTimer != null) {
+            turnTimer.cancel();
         }
 
         changeScene("/caroclient/Hub.fxml");

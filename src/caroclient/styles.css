@@ -42,3 +42,8 @@
 	-fx-border-radius: 0px;
 	-fx-border-color: black;
 }
+
+.turn-timer {
+	-fx-pref-width: 150px;
+	-fx-background-color: green;
+}
