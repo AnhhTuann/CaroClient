@@ -1,0 +1,44 @@
+@font-face {
+	src: url("../assets/Minecraft.ttf");
+}
+
+.root {
+	-fx-font-family: "Minecraft";
+}
+
+.text-field, .button, .choice-box, .date-picker {
+	-fx-border-color: black;
+	-fx-border-width: 3px;
+	-fx-border-radius: 0px;
+}
+
+.date-picker > .text-field {
+	-fx-border-width: 0px 3px 0px 0px;
+}
+
+.title {
+	-fx-font-size: 24px;
+	-fx-font-weight: bold;
+}
+
+.button {
+	-fx-background-color: #14274e;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.5), 0, 0, 4px, 4px);
+}
+
+.button:pressed {
+	-fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.5), 0, 0, 0px, 0px);
+}
+
+.button:hover {
+	-fx-background-color: #394867;
+}
+
+.game-timer {
+	-fx-font-size: 20px;
+	-fx-border-width: 3px 0px 3px 0px;
+	-fx-border-radius: 0px;
+	-fx-border-color: black;
+}

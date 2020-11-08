@@ -25,6 +25,7 @@ public abstract class ControllerBase implements Initializable {
 			ControllerBase controller = loader.getController();
 			Scene scene = new Scene(root);
 
+			scene.getStylesheets().add(getClass().getResource("/caroclient/styles.css").toExternalForm());
 			controller.setStage(stage);
 			stage.setScene(scene);
 			Client.unregisterHandler(handler);

@@ -40,7 +40,14 @@ public class LoginFormController extends ControllerBase {
 
     @FXML
     public void submit(MouseEvent event) {
-        Client.sendData("LOGIN:" + emailTextField.getText() + ";" + passwordField.getText());
+        String email = emailTextField.getText();
+        String password = passwordField.getText();
+
+        if (email.equals("") || password.equals("")) {
+            showErrorDialog("Please provide information!");
+        } else {
+            Client.sendData("LOGIN:" + email + ";" + password);
+        }
     }
 
     @FXML
