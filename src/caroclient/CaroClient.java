@@ -22,7 +22,7 @@ public class CaroClient extends Application {
     public void start(Stage stage) throws Exception {
         Client.connect("127.0.0.1", 3000);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginForm.fxml"));
         Parent root = loader.load();
         ControllerBase controller = loader.getController();
         Scene scene = new Scene(root);

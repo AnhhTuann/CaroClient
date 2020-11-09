@@ -29,9 +29,11 @@ public class HubHandler extends HandlerBase {
 				break;
 			}
 			case "NEW_MATCH": {
+				String[] opponentInfo = data[0].split(",");
+
 				Platform.runLater(() -> {
 					ui.closeAllDialog();
-					ui.changeScene("/caroclient/Board.fxml");
+					ui.goToBoard(opponentInfo[0], opponentInfo[1], data[1]);
 				});
 			}
 		}

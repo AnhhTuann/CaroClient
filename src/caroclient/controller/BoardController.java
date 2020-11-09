@@ -7,6 +7,8 @@ package caroclient.controller;
 
 import java.io.FileInputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Pair;
 
 /**
  * FXML Controller class
@@ -36,13 +39,25 @@ public class BoardController extends ControllerBase {
     @FXML
     private Label gameTimerLabel;
     @FXML
-    private Pane turnTimerIndicator;
+    private Label myName;
+    @FXML
+    private Label opponentName;
+    @FXML
+    private Pane myTurnTimerIndicator;
+    @FXML
+    private Pane opponentTurnTimerIndicator;
+    @FXML
+    private Pane myPortrait;
+    @FXML
+    private Pane opponentPortrait;
+    private Map<String, Pair<Pane, Pane>> playerInfos = new HashMap<>();
     private Image crossSprite;
     private Image zeroSprite;
     private Timer gameTimer;
     private Timer turnTimer;
     private int gameInterval;
     private int turnInterval;
+    private String currentTurn;
     private final int spriteSize = 32;
     private final int gameDuration = 10 * 60;
     private final int turnDuration = 30;
@@ -57,37 +72,19 @@ public class BoardController extends ControllerBase {
         }
 
         handler = new BoardHandler(this);
+        myName.setText(Client.getAccount().getFullname());
+        playerInfos.put(Client.getAccount().getId(), new Pair<>(myPortrait, myTurnTimerIndicator));
+
         Client.registerHandler(handler);
-
-        gameInterval = gameDuration;
         startGameTimer();
-
-        turnInterval = turnDuration;
-        startTurnTimer();
     }
 
     private String beautifyNumber(int n) {
         return n < 10 ? "0" + Integer.toString(n) : Integer.toString(n);
     }
 
-    private void startTurnTimer() {
-        turnTimer = new Timer();
-        turnTimer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                if (turnInterval > 0) {
-                    Platform.runLater(() -> {
-                        turnTimerIndicator.setPrefWidth(turnTimerIndicator.getPrefWidth() - 5);
-                    });
-
-                    turnInterval--;
-                } else {
-                    turnTimer.cancel();
-                }
-            }
-        }, 0, 1000);
-    }
-
     private void startGameTimer() {
+        gameInterval = gameDuration;
         gameTimer = new Timer();
         gameTimer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -108,6 +105,55 @@ public class BoardController extends ControllerBase {
         }, 0, 1000);
     }
 
+    @FXML
+    private void handleButtonAction(MouseEvent event) {
+        int col = (int) (event.getX() / spriteSize);
+        int row = (int) (event.getY() / spriteSize);
+        Client.sendData("MOVE:" + col + ";" + row + ";" + Client.getAccount().getId());
+    }
+
+    private void startTurnTimer() {
+        if (turnTimer != null) {
+            turnTimer.cancel();
+        }
+
+        turnInterval = turnDuration;
+        turnTimer = new Timer();
+        turnTimer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                if (turnInterval > 0) {
+                    Platform.runLater(() -> {
+                        Pane turnTimerIndicator = playerInfos.get(currentTurn).getValue();
+                        turnTimerIndicator.setPrefWidth(turnTimerIndicator.getPrefWidth() - 5);
+                    });
+
+                    turnInterval--;
+                } else {
+                    turnTimer.cancel();
+                }
+            }
+        }, 0, 1000);
+    }
+
+    public void changeTurn(String playerId) {
+        currentTurn = playerId;
+        playerInfos.forEach((k, v) -> {
+            if (k.equals(playerId)) {
+                v.getKey().getStyleClass().add("in-turn");
+                v.getValue().setPrefWidth(150);
+            } else {
+                v.getKey().getStyleClass().remove("in-turn");
+            }
+        });
+
+        startTurnTimer();
+    }
+
+    public void setOpponentInfo(String id, String name) {
+        opponentName.setText(name);
+        playerInfos.put(id, new Pair<>(opponentPortrait, opponentTurnTimerIndicator));
+    }
+
     public void drawMove(int col, int row, String fromPlayer) {
         ImageView imageView = new ImageView(fromPlayer.equals(Client.getAccount().getId()) ? crossSprite : zeroSprite);
         imageView.setX(col * spriteSize);
@@ -115,13 +161,6 @@ public class BoardController extends ControllerBase {
         imageView.setFitHeight(spriteSize);
         imageView.setFitWidth(spriteSize);
         boardContainer.getChildren().add(imageView);
-    }
-
-    @FXML
-    private void handleButtonAction(MouseEvent event) {
-        int col = (int) (event.getX() / spriteSize);
-        int row = (int) (event.getY() / spriteSize);
-        Client.sendData("MOVE:" + col + ";" + row + ";" + Client.getAccount().getId());
     }
 
     public void showGameOverDialog(String status) {
@@ -134,6 +173,10 @@ public class BoardController extends ControllerBase {
         alert.initOwner(stage);
         alert.showAndWait();
 
+        changeScene("/caroclient/Hub.fxml");
+    }
+
+    public void stopAllTimer() {
         if (gameTimer != null) {
             gameTimer.cancel();
         }
@@ -141,7 +184,5 @@ public class BoardController extends ControllerBase {
         if (turnTimer != null) {
             turnTimer.cancel();
         }
-
-        changeScene("/caroclient/Hub.fxml");
     }
 }

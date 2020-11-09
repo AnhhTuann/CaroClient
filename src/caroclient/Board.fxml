@@ -20,16 +20,49 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <VBox alignment="CENTER" layoutX="480.0" prefHeight="480.0" prefWidth="200.0">
+      <VBox alignment="CENTER" layoutX="480.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0">
+            <Pane fx:id="opponentPortrait" styleClass="player-portrait">
                <children>
-                  <Pane fx:id="turnTimerIndicator" layoutX="25.0" layoutY="95.0" prefHeight="10.0" prefWidth="150.0" styleClass="turn-timer" />
+                  <Pane fx:id="opponentTurnTimerIndicator" layoutX="15.0" layoutY="64.0" prefHeight="10.0" prefWidth="150.0" styleClass="turn-timer" />
+                  <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="26.0" spacing="10.0">
+                     <children>
+                        <ImageView fitHeight="26.0" fitWidth="48.0" layoutX="27.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/black_gamepad.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="opponentName" layoutX="82.0" layoutY="29.0" text="Label" />
+                     </children>
+                  </HBox>
                </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </Pane>
             <Label fx:id="gameTimerLabel" styleClass="game-timer" text="00:00" />
-            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane fx:id="myPortrait" styleClass="player-portrait">
+               <children>
+                  <Pane fx:id="myTurnTimerIndicator" layoutX="15.0" layoutY="64.0" prefHeight="10.0" prefWidth="150.0" styleClass="turn-timer" />
+                  <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="26.0" spacing="10.0">
+                     <children>
+                        <ImageView fitHeight="26.0" fitWidth="48.0" layoutX="27.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/white_gamepad.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="myName" layoutX="82.0" layoutY="29.0" text="Label" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Pane>
          </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </VBox>
    </children>
 </AnchorPane>

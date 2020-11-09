@@ -6,7 +6,7 @@
 	-fx-font-family: "Minecraft";
 }
 
-.text-field, .button, .choice-box, .date-picker {
+.text-field, .button, .choice-box, .date-picker, .player-portrait {
 	-fx-border-color: black;
 	-fx-border-width: 3px;
 	-fx-border-radius: 0px;
@@ -46,4 +46,17 @@
 .turn-timer {
 	-fx-pref-width: 150px;
 	-fx-background-color: green;
+}
+
+.player-portrait {
+	-fx-border-width: 2px;
+	-fx-background-color: #9ba4b4;
+}
+
+.player-portrait.in-turn {
+	-fx-background-color: #394867;
+}
+
+.player-portrait .label {
+	-fx-text-fill: white;
 }

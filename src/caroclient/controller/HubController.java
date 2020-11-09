@@ -5,6 +5,7 @@
  */
 package caroclient.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -12,6 +13,9 @@ import java.util.ResourceBundle;
 import caroclient.Client;
 import caroclient.handler.HubHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -71,5 +75,23 @@ public class HubController extends ControllerBase {
         this.stage = stage;
         matchFoundAlert.initOwner(stage);
         waitForAnotherAlert.initOwner(stage);
+    }
+
+    public void goToBoard(String opponentId, String opponentName, String entryPlayerId) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Board.fxml"));
+            Parent root = loader.load();
+            BoardController controller = loader.getController();
+            Scene scene = new Scene(root);
+
+            scene.getStylesheets().add(getClass().getResource("/caroclient/styles.css").toExternalForm());
+            controller.setOpponentInfo(opponentId, opponentName);
+            controller.changeTurn(entryPlayerId);
+            controller.setStage(stage);
+            stage.setScene(scene);
+            Client.unregisterHandler(handler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

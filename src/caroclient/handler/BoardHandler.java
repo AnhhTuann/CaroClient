@@ -16,14 +16,24 @@ public class BoardHandler extends HandlerBase {
 			case "MOVE": {
 				int col = Integer.parseInt(data[0]);
 				int row = Integer.parseInt(data[1]);
+				String currentPlayerId = data[2];
 
 				Platform.runLater(() -> {
-					ui.drawMove(col, row, data[2]);
+					ui.drawMove(col, row, currentPlayerId);
 				});
+
+				break;
+			}
+			case "NEW_TURN": {
+				Platform.runLater(() -> {
+					ui.changeTurn(data[0]);
+				});
+
 				break;
 			}
 			case "GAMEOVER": {
 				Platform.runLater(() -> {
+					ui.stopAllTimer();
 					ui.showGameOverDialog(data[0]);
 				});
 
