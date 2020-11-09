@@ -138,11 +138,13 @@ public class BoardController extends ControllerBase {
     public void changeTurn(String playerId) {
         currentTurn = playerId;
         playerInfos.forEach((k, v) -> {
-            if (k.equals(playerId)) {
+            if (k.equals(currentTurn)) {
                 v.getKey().getStyleClass().add("in-turn");
+                v.getValue().setVisible(true);
                 v.getValue().setPrefWidth(150);
             } else {
                 v.getKey().getStyleClass().remove("in-turn");
+                v.getValue().setVisible(false);
             }
         });
 

@@ -17,16 +17,11 @@ public class BoardHandler extends HandlerBase {
 				int col = Integer.parseInt(data[0]);
 				int row = Integer.parseInt(data[1]);
 				String currentPlayerId = data[2];
+				String nextPlayerId = data[3];
 
 				Platform.runLater(() -> {
 					ui.drawMove(col, row, currentPlayerId);
-				});
-
-				break;
-			}
-			case "NEW_TURN": {
-				Platform.runLater(() -> {
-					ui.changeTurn(data[0]);
+					ui.changeTurn(nextPlayerId);
 				});
 
 				break;
