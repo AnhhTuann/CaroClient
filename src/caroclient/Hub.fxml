@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="caroclient.controller.HubController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="caroclient.controller.HubController">
    <children>
-      <HBox alignment="CENTER" layoutX="14.0" layoutY="14.0">
+      <Pane prefHeight="64.0" styleClass="hub-menu">
          <children>
-            <Label text="Welcome back," />
-            <Label fx:id="playerNameLabel" />
+            <Label fx:id="playerNameLabel" layoutX="14.0" layoutY="22.0" styleClass="player-name" text="Name" />
+            <HBox alignment="CENTER" layoutX="180.0" layoutY="16.0" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" styleClass="user-button" />
+                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" styleClass="ranking-button" />
+                  <Button fx:id="exitButton" mnemonicParsing="false" onMouseClicked="#exitGame" prefHeight="32.0" prefWidth="32.0" styleClass="exit-button" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
-      <Label layoutX="14.0" layoutY="30.0" text="Finding opponent..." />
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Pane>
+      <Pane styleClass="list-header">
+         <children>
+            <Button fx:id="refreshButton" alignment="CENTER" layoutX="262.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#refreshGameList" prefHeight="24.0" prefWidth="24.0" styleClass="refresh-button" />
+            <Label layoutX="14.0" layoutY="14.0" text="Watch" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Pane>
+      <ScrollPane prefHeight="295.0" prefWidth="300.0">
+         <content>
+            <VBox fx:id="roomMenu" spacing="5.0">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
    </children>
-</AnchorPane>
+</VBox>

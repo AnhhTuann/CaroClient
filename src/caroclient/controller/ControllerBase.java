@@ -18,7 +18,7 @@ public abstract class ControllerBase implements Initializable {
 		this.stage = stage;
 	}
 
-	public void changeScene(String sceneName) {
+	public ControllerBase changeScene(String sceneName) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
 			Parent root = loader.load();
@@ -29,8 +29,12 @@ public abstract class ControllerBase implements Initializable {
 			controller.setStage(stage);
 			stage.setScene(scene);
 			Client.unregisterHandler(handler);
+
+			return controller;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return null;
 	}
 }

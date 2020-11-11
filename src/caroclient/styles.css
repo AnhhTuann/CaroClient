@@ -60,3 +60,60 @@
 .player-portrait .label {
 	-fx-text-fill: white;
 }
+
+.hub-menu {
+	-fx-background-color: #14274e;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 4px, 0, 0px, 4px);
+}
+
+.hub-menu > .player-name {
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 18px;
+}
+
+.hub-menu .button {
+	-fx-border-width: 0px;
+	-fx-border-radius: 0px;
+	-fx-effect: none;
+}
+
+.ranking-button {
+	-fx-background-image: url("../assets/trophy.png");
+}
+
+.user-button {
+	-fx-background-image: url("../assets/user.png");
+}
+
+.exit-button {
+	-fx-background-image: url("../assets/turn_off.png");
+}
+
+.refresh-button {
+	-fx-background-image: url("../assets/refresh.png");
+}
+
+.room-menu-item {
+	-fx-border-color: black;
+	-fx-border-width: 2px;
+	-fx-border-radius: 0px;
+}
+
+.room-menu-item:hover {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 4px, 0, 0px, 4px);
+	-fx-background-color: #394867;
+}
+
+.room-menu-item:hover .label {
+	-fx-text-fill: white;
+}
+
+.list-header .label {
+	-fx-font-weight: bold;
+	-fx-font-size: 14px;
+}
+
+.list-header .button {
+	-fx-effect: none;
+}

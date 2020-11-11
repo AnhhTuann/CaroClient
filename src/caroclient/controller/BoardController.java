@@ -26,7 +26,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Pair;
 
 /**
  * FXML Controller class
@@ -34,30 +33,45 @@ import javafx.util.Pair;
  * @author ASUS
  */
 public class BoardController extends ControllerBase {
+    private class PlayerInfo {
+        private Pane portrait;
+        private Pane timerIndicator;
+        private Image moveIcon;
+        private String name;
+
+        public PlayerInfo(Pane portrait, Pane timerIndicator, Image moveIcon, String name) {
+            this.portrait = portrait;
+            this.timerIndicator = timerIndicator;
+            this.moveIcon = moveIcon;
+            this.name = name;
+        }
+    }
+
     @FXML
     private AnchorPane boardContainer;
     @FXML
     private Label gameTimerLabel;
     @FXML
-    private Label myName;
+    private Label p1Name;
     @FXML
-    private Label opponentName;
+    private Label p2Name;
     @FXML
-    private Pane myTurnTimerIndicator;
+    private Pane p1TurnTimerIndicator;
     @FXML
-    private Pane opponentTurnTimerIndicator;
+    private Pane p2TurnTimerIndicator;
     @FXML
-    private Pane myPortrait;
+    private Pane p1Portrait;
     @FXML
-    private Pane opponentPortrait;
-    private Map<String, Pair<Pane, Pane>> playerInfos = new HashMap<>();
+    private Pane p2Portrait;
+    private Map<String, PlayerInfo> playerInfos = new HashMap<>();
     private Image crossSprite;
-    private Image zeroSprite;
+    private Image noughtSprite;
     private Timer gameTimer;
     private Timer turnTimer;
     private int gameInterval;
     private int turnInterval;
     private String currentTurn;
+    private boolean isSpectating = false;
     private final int spriteSize = 32;
     private final int gameDuration = 10 * 60;
     private final int turnDuration = 30;
@@ -66,14 +80,11 @@ public class BoardController extends ControllerBase {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             crossSprite = new Image(new FileInputStream("./src/assets/cross.png"));
-            zeroSprite = new Image(new FileInputStream("./src/assets/nought.png"));
+            noughtSprite = new Image(new FileInputStream("./src/assets/nought.png"));
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
-
         handler = new BoardHandler(this);
-        myName.setText(Client.getAccount().getFullname());
-        playerInfos.put(Client.getAccount().getId(), new Pair<>(myPortrait, myTurnTimerIndicator));
 
         Client.registerHandler(handler);
         startGameTimer();
@@ -123,7 +134,7 @@ public class BoardController extends ControllerBase {
             public void run() {
                 if (turnInterval > 0) {
                     Platform.runLater(() -> {
-                        Pane turnTimerIndicator = playerInfos.get(currentTurn).getValue();
+                        Pane turnTimerIndicator = playerInfos.get(currentTurn).timerIndicator;
                         turnTimerIndicator.setPrefWidth(turnTimerIndicator.getPrefWidth() - 5);
                     });
 
@@ -135,29 +146,53 @@ public class BoardController extends ControllerBase {
         }, 0, 1000);
     }
 
+    public void startSpectating(String p1Name, String p1Id, String p2Name, String p2Id, String[] moves) {
+        isSpectating = true;
+        this.p1Name.setText(p1Name);
+        playerInfos.put(p1Id, new PlayerInfo(p1Portrait, p1TurnTimerIndicator, crossSprite, p1Name));
+        this.p2Name.setText(p2Name);
+        playerInfos.put(p2Id, new PlayerInfo(p2Portrait, p2TurnTimerIndicator, noughtSprite, p2Name));
+
+        for (String move : moves) {
+            String[] data = move.split("\\.");
+            drawMove(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2]);
+        }
+    }
+
+    public void startGame(String opponentId, String opponentName) {
+        isSpectating = false;
+        String myName = Client.getAccount().getFullname();
+        p1Name.setText(Client.getAccount().getFullname());
+        playerInfos.put(Client.getAccount().getId(),
+                new PlayerInfo(p1Portrait, p1TurnTimerIndicator, crossSprite, myName));
+        this.p2Name.setText(opponentName);
+        playerInfos.put(opponentId, new PlayerInfo(p2Portrait, p2TurnTimerIndicator, noughtSprite, opponentName));
+    }
+
     public void changeTurn(String playerId) {
         currentTurn = playerId;
         playerInfos.forEach((k, v) -> {
             if (k.equals(currentTurn)) {
-                v.getKey().getStyleClass().add("in-turn");
-                v.getValue().setVisible(true);
-                v.getValue().setPrefWidth(150);
+                v.portrait.getStyleClass().add("in-turn");
+                v.timerIndicator.setVisible(true);
+                v.timerIndicator.setPrefWidth(150);
             } else {
-                v.getKey().getStyleClass().remove("in-turn");
-                v.getValue().setVisible(false);
+                v.portrait.getStyleClass().remove("in-turn");
+                v.timerIndicator.setVisible(false);
+            }
+
+            if (isSpectating) {
+                v.timerIndicator.setVisible(false);
             }
         });
 
-        startTurnTimer();
-    }
-
-    public void setOpponentInfo(String id, String name) {
-        opponentName.setText(name);
-        playerInfos.put(id, new Pair<>(opponentPortrait, opponentTurnTimerIndicator));
+        if (!isSpectating) {
+            startTurnTimer();
+        }
     }
 
     public void drawMove(int col, int row, String fromPlayer) {
-        ImageView imageView = new ImageView(fromPlayer.equals(Client.getAccount().getId()) ? crossSprite : zeroSprite);
+        ImageView imageView = new ImageView(playerInfos.get(fromPlayer).moveIcon);
         imageView.setX(col * spriteSize);
         imageView.setY(row * spriteSize);
         imageView.setFitHeight(spriteSize);
@@ -169,9 +204,10 @@ public class BoardController extends ControllerBase {
         Alert alert = new Alert(AlertType.INFORMATION);
         String text = status.equals("DRAW") ? "DRAW! WELL PLAYED!"
                 : status.equals(Client.getAccount().getId()) ? "CONGRATULATION! YOU WIN!" : "SORRY! YOU LOSE!";
-
+        String spectatingText = "GAME OVER! "
+                + (status.equals("DRAW") ? "DRAW!" : playerInfos.get(status).name + " WIN!");
         alert.setTitle("GameOver");
-        alert.setContentText(text);
+        alert.setContentText(isSpectating ? spectatingText : text);
         alert.initOwner(stage);
         alert.showAndWait();
 

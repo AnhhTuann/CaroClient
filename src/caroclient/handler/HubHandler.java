@@ -33,8 +33,28 @@ public class HubHandler extends HandlerBase {
 
 				Platform.runLater(() -> {
 					ui.closeAllDialog();
-					ui.goToBoard(opponentInfo[0], opponentInfo[1], data[1]);
+					ui.goToBoardAndPlay(opponentInfo[0], opponentInfo[1], data[1]);
 				});
+
+				break;
+			}
+			case "GAME_LIST": {
+				Platform.runLater(() -> {
+					ui.listGameRoom(data);
+				});
+
+				break;
+			}
+			case "GAME_INFO": {
+				String[] p1 = data[0].split(",");
+				String[] p2 = data[1].split(",");
+				String[] moves = data[3].split(",");
+
+				Platform.runLater(() -> {
+					ui.goToBoardAndSpectate(p1[1], p1[0], p2[1], p2[0], data[2], moves);
+				});
+
+				break;
 			}
 		}
 	}

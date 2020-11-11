@@ -18,6 +18,7 @@ public class Client {
 	private static BufferedReader in;
 	private static ArrayList<HandlerBase> handlers = new ArrayList<>();
 	private static Account account;
+	private static boolean isExit = false;
 
 	public static void setId(String id) {
 		Client.id = id;
@@ -28,9 +29,14 @@ public class Client {
 	}
 
 	private static void listen() {
-		while (true) {
+		sendData("CONNECT:Connect to server");
+		while (!isExit) {
 			try {
 				String[] response = in.readLine().split(":");
+
+				if (response[0].equals("CONNECTED")) {
+					id = response[1];
+				}
 
 				for (HandlerBase handler : handlers) {
 					handler.handleResponse(response[0], response[1].split(";"));
@@ -80,5 +86,18 @@ public class Client {
 
 	public static Account getAccount() {
 		return account;
+	}
+
+	public static void stop() {
+		isExit = true;
+		sendData("DISCONNECT:" + Client.getId());
+
+		try {
+			socket.close();
+			out.close();
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

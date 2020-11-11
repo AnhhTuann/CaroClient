@@ -20,6 +20,8 @@ public class CaroClient extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Runtime.getRuntime().addShutdownHook(new ShutDownHook());
+
         Client.connect("127.0.0.1", 3000);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginForm.fxml"));
