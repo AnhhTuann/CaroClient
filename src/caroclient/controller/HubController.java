@@ -55,7 +55,7 @@ public class HubController extends ControllerBase {
 
     @FXML
     public void goToAccountInfo() {
-        changeScene("/caroclient/AccountInfo.fxml");
+        container.loadAccountInfo();
     }
 
     @FXML

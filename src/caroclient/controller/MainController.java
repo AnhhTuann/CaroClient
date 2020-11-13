@@ -57,7 +57,9 @@ public class MainController extends ControllerBase {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Hub.fxml"));
             Node item = loader.load();
+            HubController controller = loader.getController();
 
+            controller.setContainer(this);
             container.getChildren().clear();
             container.getChildren().add(item);
         } catch (IOException e) {
@@ -69,7 +71,9 @@ public class MainController extends ControllerBase {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/AccountInfo.fxml"));
             Node item = loader.load();
+            AccountInfoController controller = loader.getController();
 
+            controller.setContainer(this);
             container.getChildren().clear();
             container.getChildren().add(item);
         } catch (IOException e) {

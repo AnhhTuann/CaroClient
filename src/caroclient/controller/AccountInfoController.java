@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 public class AccountInfoController extends ControllerBase {
     @FXML
     private Button backButton;
+    private MainController container;
 
     /**
      * Initializes the controller class.
@@ -30,6 +31,10 @@ public class AccountInfoController extends ControllerBase {
 
     @FXML
     public void goToHub() {
-        changeScene("/caroclient/Hub.fxml");
+        container.loadHub();
+    }
+
+    public void setContainer(MainController container) {
+        this.container = container;
     }
 }
