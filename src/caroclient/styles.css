@@ -6,7 +6,7 @@
 	-fx-font-family: "Minecraft";
 }
 
-.text-field, .button, .choice-box, .date-picker, .player-portrait {
+.text-field, .button, .choice-box, .date-picker, .player-portrait, .match-index {
 	-fx-border-color: black;
 	-fx-border-width: 3px;
 	-fx-border-radius: 0px;
@@ -94,6 +94,10 @@
 	-fx-background-image: url("../assets/refresh.png");
 }
 
+.back-button {
+	-fx-background-image: url("../assets/arrow.png");
+}
+
 .room-menu-item {
 	-fx-border-color: black;
 	-fx-border-width: 2px;
@@ -116,4 +120,33 @@
 
 .list-header .button {
 	-fx-effect: none;
+}
+
+.match-index > .label {
+	-fx-font-weight: bold;
+	-fx-font-size: 14px;
+}
+
+.match-index.win {
+	-fx-border-color: green;
+}
+
+.match-index.win > .label {
+	-fx-text-fill: green;
+}
+
+.match-index.lose {
+	-fx-border-color: red;
+}
+
+.match-index.lose > .label {
+	-fx-text-fill: red;
+}
+
+.match-index.draw {
+	-fx-border-color: orange;
+}
+
+.match-index.draw > .label {
+	-fx-text-fill: orange;
 }
