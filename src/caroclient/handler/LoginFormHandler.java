@@ -26,7 +26,7 @@ public class LoginFormHandler extends HandlerBase {
 
                 Client.setAccount(acc);
                 Platform.runLater(() -> {
-                    ui.changeScene("/caroclient/Hub.fxml");
+                    ui.changeScene("/caroclient/Main.fxml");
                 });
                 break;
             }

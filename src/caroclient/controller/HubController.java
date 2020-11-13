@@ -32,12 +32,6 @@ public class HubController extends ControllerBase {
     private Label playerNameLabel;
     @FXML
     private VBox roomMenu;
-    @FXML
-    private Button refreshButton;
-    @FXML
-    private Button userButton;
-    @FXML
-    private Button exitButton;
     private MainController container;
 
     @Override
@@ -46,6 +40,7 @@ public class HubController extends ControllerBase {
         Client.registerHandler(handler);
 
         playerNameLabel.setText(Client.getAccount().getFullname());
+        Client.sendData("REFRESH:Refresh game list");
     }
 
     @FXML
