@@ -52,7 +52,7 @@ public class LoginFormController extends ControllerBase {
 
     @FXML
     public void goToRegister() {
-        changeScene("/caroclient/RegisterForm.fxml");
+        changeScene("/caroclient/Main.fxml");
     }
 
     public void showErrorDialog(String error) {

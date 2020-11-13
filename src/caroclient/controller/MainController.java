@@ -42,10 +42,9 @@ public class MainController extends ControllerBase {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         handler = new MainHandler(this);
+        
         Client.registerHandler(handler);
-
         Client.sendData("READY:" + Client.getAccount().getId());
-
         matchFoundAlert.setTitle("Found a match!");
         waitForAnotherAlert.setTitle("Found a match!");
         waitForAnotherAlert.setResult(ButtonType.OK);
