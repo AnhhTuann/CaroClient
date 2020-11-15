@@ -150,3 +150,9 @@
 .match-index.draw > .label {
 	-fx-text-fill: orange;
 }
+
+.account-info-title {
+	-fx-font-weight: bold;
+	-fx-font-size: 16px;
+	-fx-underline: true;
+}

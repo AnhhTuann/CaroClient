@@ -17,7 +17,7 @@
             <Label fx:id="playerNameLabel" layoutX="14.0" layoutY="22.0" styleClass="player-name" text="Name" />
             <HBox alignment="CENTER" layoutX="180.0" layoutY="16.0" spacing="5.0">
                <children>
-                  <Button fx:id="userButton" mnemonicParsing="false" onMouseClicked="#goToAccountInfo" prefHeight="32.0" prefWidth="32.0" styleClass="user-button" />
+                  <Button fx:id="userButton" mnemonicParsing="false" onMouseClicked="#goToAccountSummary" prefHeight="32.0" prefWidth="32.0" styleClass="user-button" />
                   <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" styleClass="ranking-button" />
                   <Button fx:id="exitButton" mnemonicParsing="false" onMouseClicked="#exitGame" prefHeight="32.0" prefWidth="32.0" styleClass="exit-button" />
                </children>

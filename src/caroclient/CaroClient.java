@@ -30,9 +30,9 @@ public class CaroClient extends Application {
         Scene scene = new Scene(root);
 
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        controller.setStage(stage);
         stage.setScene(scene);
         stage.show();
+        controller.setStage(stage);
     }
 
     /**

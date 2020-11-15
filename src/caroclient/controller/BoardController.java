@@ -211,7 +211,7 @@ public class BoardController extends ControllerBase {
         alert.initOwner(stage);
         alert.showAndWait();
 
-        changeScene("/caroclient/Hub.fxml");
+        changeScene("/caroclient/Main.fxml");
     }
 
     public void stopAllTimer() {

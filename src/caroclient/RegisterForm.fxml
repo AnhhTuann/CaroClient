@@ -20,67 +20,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="caroclient.controller.RegisterFormController">
+<VBox alignment="CENTER" prefWidth="300.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="caroclient.controller.RegisterFormController">
    <children>
-      <VBox alignment="CENTER" layoutX="25.0" prefWidth="250.0" spacing="20.0">
+      <Label layoutX="48.0" layoutY="14.0" styleClass="title" text="CREATE NEW ACCOUNT" textAlignment="CENTER" wrapText="true" />
+      <ImageView fitHeight="104.0" fitWidth="104.0" layoutX="75.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/banner.png" />
+         </image>
+      </ImageView>
+      <VBox fx:id="registerForm" alignment="BOTTOM_CENTER" layoutX="50.0" layoutY="218.0" spacing="10.0" />
+      <Button defaultButton="true" mnemonicParsing="false" onMouseClicked="#submit" text="REGISTER" textAlignment="CENTER" />
+      <HBox alignment="CENTER" layoutX="48.0" layoutY="566.0">
          <children>
-            <Label layoutX="48.0" layoutY="14.0" styleClass="title" text="CREATE NEW ACCOUNT" textAlignment="CENTER" wrapText="true" />
-            <ImageView fitHeight="104.0" fitWidth="104.0" layoutX="75.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/banner.png" />
-               </image>
-            </ImageView>
-            <VBox alignment="BOTTOM_CENTER" layoutX="50.0" layoutY="218.0" spacing="10.0">
-               <children>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Email" />
-                        <TextField fx:id="emailTextField" prefWidth="200.0" promptText="example@email.com" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Password" />
-                        <PasswordField fx:id="passwordField" promptText="At least 8 characters" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Confirm Password" />
-                        <PasswordField fx:id="comfirmPasswordField" promptText="Repeat your password" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Full Name" />
-                        <TextField fx:id="fullnameTextField" prefWidth="200.0" promptText="John Smith" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Gender" />
-                        <ChoiceBox fx:id="genderChoiceBox" prefWidth="250.0" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Birthday" />
-                        <DatePicker fx:id="birthdayDatePicker" prefWidth="250.0" promptText="mm/dd/yyyy" />
-                     </children>
-                  </VBox>
-                  <Button defaultButton="true" mnemonicParsing="false" onMouseClicked="#submit" text="REGISTER" textAlignment="CENTER" />
-               </children>
-            </VBox>
-            <HBox alignment="CENTER" layoutX="48.0" layoutY="566.0">
-               <children>
-                  <Label layoutX="48.0" layoutY="636.0" text="Already have account?" />
-                  <Hyperlink fx:id="goToLoginLink" layoutX="197.0" layoutY="632.0" onMouseClicked="#goToLogin" text="Sign in" />
-               </children>
-            </HBox>
+            <Label layoutX="48.0" layoutY="636.0" text="Already have account?" />
+            <Hyperlink fx:id="goToLoginLink" layoutX="197.0" layoutY="632.0" onMouseClicked="#goToLogin" text="Sign in" />
          </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </VBox>
+      </HBox>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

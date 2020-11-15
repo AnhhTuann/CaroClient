@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="BOTTOM_CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="caroclient.controller.AccountInfoFormController">
+   <children>
+      <VBox spacing="5.0">
+         <children>
+            <Label text="Email" />
+            <TextField fx:id="emailTextField" prefWidth="200.0" promptText="example@email.com" />
+         </children>
+      </VBox>
+      <VBox spacing="5.0">
+         <children>
+            <Label text="Full Name" />
+            <TextField fx:id="fullnameTextField" prefWidth="200.0" promptText="John Smith" />
+         </children>
+      </VBox>
+      <VBox spacing="5.0">
+         <children>
+            <Label text="Gender" />
+            <ChoiceBox fx:id="genderChoiceBox" prefWidth="300.0" />
+         </children>
+      </VBox>
+      <VBox spacing="5.0">
+         <children>
+            <Label text="Birthday" />
+            <DatePicker fx:id="birthdayDatePicker" prefWidth="300.0" promptText="mm/dd/yyyy" />
+         </children>
+      </VBox>
+   </children>
+</VBox>

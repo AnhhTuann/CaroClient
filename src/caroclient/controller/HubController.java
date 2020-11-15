@@ -16,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
@@ -49,8 +48,8 @@ public class HubController extends ControllerBase {
     }
 
     @FXML
-    public void goToAccountInfo() {
-        container.loadAccountInfo();
+    public void goToAccountSummary() {
+        container.loadAccountSummary();
     }
 
     @FXML
@@ -90,6 +89,7 @@ public class HubController extends ControllerBase {
     private void showConfirmExitDialog() {
         Alert alert = new Alert(AlertType.CONFIRMATION, "Do you want to exit?");
         alert.setTitle("EXIT");
+        alert.initOwner(stage);
 
         Optional<ButtonType> confirmation = alert.showAndWait();
 

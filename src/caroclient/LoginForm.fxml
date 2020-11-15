@@ -18,43 +18,39 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="caroclient.controller.LoginFormController">
+<VBox alignment="CENTER" prefWidth="300.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="caroclient.controller.LoginFormController">
    <children>
-      <VBox alignment="CENTER" layoutX="7.0" prefWidth="250.0" spacing="20.0">
+      <Label alignment="CENTER" layoutY="7.0" prefWidth="300.0" styleClass="title" text="LOGIN" textAlignment="CENTER" />
+      <ImageView fitHeight="104.0" fitWidth="104.0" layoutX="75.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/banner.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="CENTER" layoutX="50.0" layoutY="218.0" spacing="10.0">
          <children>
-            <Label alignment="CENTER" layoutY="7.0" prefWidth="300.0" styleClass="title" text="LOGIN" textAlignment="CENTER" />
-            <ImageView fitHeight="104.0" fitWidth="104.0" layoutX="75.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/banner.png" />
-               </image>
-            </ImageView>
-            <VBox alignment="CENTER" layoutX="50.0" layoutY="218.0" spacing="10.0">
+            <VBox spacing="5.0">
                <children>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Email" />
-                        <TextField fx:id="emailTextField" prefWidth="200.0" promptText="example@email.com" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Password" />
-                        <PasswordField fx:id="passwordField" promptText="At least 8 characters" />
-                     </children>
-                  </VBox>
-                  <Button defaultButton="true" mnemonicParsing="false" onMouseClicked="#submit" text="LOGIN" textAlignment="CENTER" />
+                  <Label text="Email" />
+                  <TextField fx:id="emailTextField" prefWidth="200.0" promptText="example@email.com" />
                </children>
             </VBox>
-            <HBox alignment="CENTER" layoutX="53.0" layoutY="364.0">
+            <VBox spacing="5.0">
                <children>
-                  <Label text="Or" />
-                  <Hyperlink fx:id="goToRegisterLink" onMouseClicked="#goToRegister" text="create new account here!" />
+                  <Label text="Password" />
+                  <PasswordField fx:id="passwordField" promptText="At least 8 characters" />
                </children>
-            </HBox>
+            </VBox>
+            <Button defaultButton="true" mnemonicParsing="false" onMouseClicked="#submit" text="LOGIN" textAlignment="CENTER" />
          </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
       </VBox>
+      <HBox alignment="CENTER" layoutX="53.0" layoutY="364.0">
+         <children>
+            <Label text="Or" />
+            <Hyperlink fx:id="goToRegisterLink" onMouseClicked="#goToRegister" text="create new account here!" />
+         </children>
+      </HBox>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

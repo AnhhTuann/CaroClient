@@ -42,7 +42,7 @@ public class MainController extends ControllerBase {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         handler = new MainHandler(this);
-        
+
         Client.registerHandler(handler);
         Client.sendData("READY:" + Client.getAccount().getId());
         matchFoundAlert.setTitle("Found a match!");
@@ -52,8 +52,16 @@ public class MainController extends ControllerBase {
         loadHub();
     }
 
+    private void setSize(double w, double h) {
+        if (stage != null) {
+            stage.setWidth(w);
+            stage.setHeight(h);
+        }
+    }
+
     public void loadHub() {
         try {
+            setSize(300, 400);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Hub.fxml"));
             Node item = loader.load();
             HubController controller = loader.getController();
@@ -66,11 +74,12 @@ public class MainController extends ControllerBase {
         }
     }
 
-    public void loadAccountInfo() {
+    public void loadAccountSummary() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/AccountInfo.fxml"));
+            setSize(320, 400);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/AccountSummary.fxml"));
             Node item = loader.load();
-            AccountInfoController controller = loader.getController();
+            AccountSummaryController controller = loader.getController();
 
             controller.setContainer(this);
             container.getChildren().clear();
@@ -115,7 +124,8 @@ public class MainController extends ControllerBase {
             String[] moves) {
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Hub.fxml"));
+            setSize(680, 480);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Board.fxml"));
             Node item = loader.load();
             BoardController controller = loader.getController();
 
