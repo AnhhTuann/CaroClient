@@ -30,6 +30,7 @@ public class MainHandler extends HandlerBase {
 			}
 			case "NEW_MATCH": {
 				String[] opponentInfo = data[0].split(",");
+				Client.sendData("NEW_MATCH:Start new match");
 
 				Platform.runLater(() -> {
 					ui.closeAllDialog();

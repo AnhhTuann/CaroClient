@@ -124,7 +124,7 @@ public class MainController extends ControllerBase {
             String[] moves) {
 
         try {
-            setSize(680, 480);
+            setSize(680, 520);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Board.fxml"));
             Node item = loader.load();
             BoardController controller = loader.getController();
