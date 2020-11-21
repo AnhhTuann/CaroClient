@@ -16,16 +16,23 @@ import java.util.TimerTask;
 import caroclient.Client;
 import caroclient.handler.BoardHandler;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -63,6 +70,10 @@ public class BoardController extends ControllerBase {
     private Pane p1Portrait;
     @FXML
     private Pane p2Portrait;
+    @FXML
+    private TextField chatTextField;
+    @FXML
+    private VBox chatVBox;
     private Map<String, PlayerInfo> playerInfos = new HashMap<>();
     private Image crossSprite;
     private Image noughtSprite;
@@ -120,7 +131,26 @@ public class BoardController extends ControllerBase {
     private void handleButtonAction(MouseEvent event) {
         int col = (int) (event.getX() / spriteSize);
         int row = (int) (event.getY() / spriteSize);
-        Client.sendData("MOVE:" + col + ";" + row + ";" + Client.getAccount().getId());
+        Client.sendData("MOVE:" + col + ";" + row);
+    }
+
+    @FXML
+    private void submitChat(ActionEvent event) {
+        Client.sendData("CHAT:" + chatTextField.getText());
+        chatTextField.setText("");
+    }
+
+    public void newMessage(String owner, String content) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/ChatContent.fxml"));
+            Node item = loader.load();
+            ChatContentController controller = loader.getController();
+
+            controller.setChat(owner, content);
+            chatVBox.getChildren().add(item);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void startTurnTimer() {

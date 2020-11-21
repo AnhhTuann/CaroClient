@@ -26,6 +26,12 @@ public class BoardHandler extends HandlerBase {
 
 				break;
 			}
+			case "CHAT": {
+				Platform.runLater(() -> {
+					ui.newMessage(data[1], data[0]);
+				});
+				break;
+			}
 			case "GAMEOVER": {
 				Platform.runLater(() -> {
 					ui.stopAllTimer();
