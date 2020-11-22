@@ -27,7 +27,6 @@ public class ChatContentController extends ControllerBase {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     public void setChat(String ownerName, String content) {

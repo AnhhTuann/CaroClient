@@ -28,7 +28,6 @@ public class RoomMenuItemController extends ControllerBase {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     @FXML

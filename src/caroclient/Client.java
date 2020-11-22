@@ -7,39 +7,39 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import caroclient.handler.HandlerBase;
 import caroclient.model.Account;
 
 public class Client {
 	private static String id;
-	private static Socket socket = null;
+	private static Socket socket;
 	private static BufferedWriter out;
 	private static BufferedReader in;
 	private static ArrayList<HandlerBase> handlers = new ArrayList<>();
 	private static Account account;
 	private static boolean isExit = false;
-
-	public static void setId(String id) {
-		Client.id = id;
-	}
+	private static StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 
 	public static String getId() {
 		return id;
 	}
 
 	private static void listen() {
-		sendData("CONNECT:Connect to server");
 		while (!isExit) {
 			try {
-				String[] response = in.readLine().split(":");
+				String response = in.readLine().replace("\n", "").replace("\r", "");
+				String[] plainResponse = response.split(":");
 
-				if (response[0].equals("CONNECTED")) {
-					id = response[1];
-				}
+				if (plainResponse[0].equals("CONNECTED")) {
+					id = plainResponse[1];
+					encryptor.setPassword(id);
+				} else {
+					String[] decryptedString = encryptor.decrypt(response).split(":");
 
-				for (HandlerBase handler : handlers) {
-					handler.handleResponse(response[0], response[1].split(";"));
+					for (HandlerBase handler : handlers) {
+						handler.handleResponse(decryptedString[0], decryptedString[1].split(";"));
+					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -73,7 +73,9 @@ public class Client {
 
 	public static void sendData(String data) {
 		try {
-			out.write(data + "\n");
+			String encrypted = encryptor.encrypt(data);
+
+			out.write(encrypted + "\n");
 			out.flush();
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
