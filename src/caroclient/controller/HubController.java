@@ -48,6 +48,11 @@ public class HubController extends ControllerBase {
     }
 
     @FXML
+    public void goToRanking() {
+        container.loadRaking();
+    }
+
+    @FXML
     public void goToAccountSummary() {
         container.loadAccountSummary();
     }

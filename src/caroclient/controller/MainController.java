@@ -89,6 +89,21 @@ public class MainController extends ControllerBase {
         }
     }
 
+    public void loadRaking() {
+        try {
+            setSize(300, 400);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caroclient/Ranking.fxml"));
+            Node item = loader.load();
+            RankingController controller = loader.getController();
+
+            controller.setContainer(this);
+            container.getChildren().clear();
+            container.getChildren().add(item);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showMatchFoundDialog() {
         Optional<ButtonType> confirmation = matchFoundAlert.showAndWait();
 
