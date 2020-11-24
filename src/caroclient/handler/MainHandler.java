@@ -39,6 +39,10 @@ public class MainHandler extends HandlerBase {
 
 				break;
 			}
+			case "GAME_NOT_FOUND": {
+				Client.sendData("REFRESH:Refresh game list");
+				break;
+			}
 			case "GAME_INFO": {
 				String[] p1 = data[0].split(",");
 				String[] p2 = data[1].split(",");

@@ -21,20 +21,16 @@ public class PlayerRankController extends ControllerBase {
     private Label rankLbl;
     @FXML
     private Label playerNameLbl;
-    @FXML
-    private Label indexLbl;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
-    public void setInfo(String rank, String name, String index) {
+    public void setInfo(String rank, String name) {
         rankLbl.setText(rank);
         playerNameLbl.setText(name);
-        indexLbl.setText(index);
     }
 }

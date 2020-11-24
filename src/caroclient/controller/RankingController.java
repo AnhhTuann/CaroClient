@@ -33,27 +33,12 @@ public class RankingController extends ControllerBase {
     public void initialize(URL url, ResourceBundle rb) {
         handler = new RankingHandler(this);
         Client.registerHandler(handler);
-        rankByScore();
+        Client.sendData("RANK:rank");
     }
 
     @FXML
     public void goToHub() {
         container.loadHub();
-    }
-
-    @FXML
-    public void rankByScore() {
-        Client.sendData("RANK:score");
-    }
-
-    @FXML
-    public void rankByWinRate() {
-        Client.sendData("RANK:rate");
-    }
-
-    @FXML
-    public void rankByWinStreak() {
-        Client.sendData("RANK:streak");
     }
 
     public void showRank(String[] infos) {
@@ -66,7 +51,7 @@ public class RankingController extends ControllerBase {
                 Node item = loader.load();
                 PlayerRankController controller = loader.getController();
 
-                controller.setInfo(info[0], info[1], info[2]);
+                controller.setInfo(info[0], info[1]);
                 rankVbox.getChildren().add(item);
             }
         } catch (IOException e) {

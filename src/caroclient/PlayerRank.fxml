@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="caroclient.controller.PlayerRankController">
    <children>
-      <Label fx:id="rankLbl" prefHeight="15.0" prefWidth="52.0" text="Label" />
-      <Label fx:id="playerNameLbl" layoutX="52.0" text="Label" />
-      <Label fx:id="indexLbl" layoutX="220.0" prefHeight="15.0" prefWidth="60.0" text="Label" />
+      <Label fx:id="rankLbl" layoutX="18.0" prefHeight="15.0" prefWidth="52.0" text="Label" />
+      <Label fx:id="playerNameLbl" layoutX="70.0" text="Label" />
    </children>
 </AnchorPane>
