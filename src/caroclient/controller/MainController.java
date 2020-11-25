@@ -7,6 +7,7 @@ package caroclient.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,6 +36,7 @@ public class MainController extends ControllerBase {
     private Alert matchFoundAlert = new Alert(AlertType.CONFIRMATION,
             "We have found for you an opponent! Please accept!", acceptButton, declineButton);
     private Alert waitForAnotherAlert = new Alert(AlertType.NONE, "Waiting for another to response...");
+    private ArrayList<Alert> foreignAlerts = new ArrayList<>();
 
     /**
      * Initializes the controller class.
@@ -57,6 +59,10 @@ public class MainController extends ControllerBase {
             stage.setWidth(w);
             stage.setHeight(h);
         }
+    }
+
+    public void addForeignAlert(Alert alert) {
+        foreignAlerts.add(alert);
     }
 
     public void loadHub() {
@@ -119,6 +125,10 @@ public class MainController extends ControllerBase {
     public void closeAllDialog() {
         matchFoundAlert.close();
         waitForAnotherAlert.close();
+
+        for (Alert a : foreignAlerts) {
+            a.close();
+        }
     }
 
     @Override
@@ -146,7 +156,7 @@ public class MainController extends ControllerBase {
 
             container.getChildren().clear();
             container.getChildren().add(item);
-            controller.startSpectating(p1Name, p1Id, p2Name, p2Id, moves);
+            controller.startSpectating(p1Name, p1Id, p2Name, p2Id, moves, this);
             controller.changeTurn(entryPlayerId);
         } catch (IOException e) {
             e.printStackTrace();

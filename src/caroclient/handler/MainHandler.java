@@ -46,9 +46,13 @@ public class MainHandler extends HandlerBase {
 			case "GAME_INFO": {
 				String[] p1 = data[0].split(",");
 				String[] p2 = data[1].split(",");
-				String[] moves = data[3].split(",");
 
 				Platform.runLater(() -> {
+					String[] moves = new String[0];
+
+					if (data.length == 4) {
+						moves = data[3].split(",");
+					}
 					ui.spectateGame(p1[1], p1[0], p2[1], p2[0], data[2], moves);
 				});
 

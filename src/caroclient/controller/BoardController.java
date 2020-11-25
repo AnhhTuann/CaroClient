@@ -74,6 +74,7 @@ public class BoardController extends ControllerBase {
     private TextField chatTextField;
     @FXML
     private VBox chatVBox;
+    private MainController container;
     private Map<String, PlayerInfo> playerInfos = new HashMap<>();
     private Image crossSprite;
     private Image noughtSprite;
@@ -176,7 +177,9 @@ public class BoardController extends ControllerBase {
         }, 0, 1000);
     }
 
-    public void startSpectating(String p1Name, String p1Id, String p2Name, String p2Id, String[] moves) {
+    public void startSpectating(String p1Name, String p1Id, String p2Name, String p2Id, String[] moves,
+            MainController container) {
+        this.container = container;
         isSpectating = true;
         this.p1Name.setText(p1Name);
         playerInfos.put(p1Id, new PlayerInfo(p1Portrait, p1TurnTimerIndicator, crossSprite, p1Name));
@@ -239,9 +242,15 @@ public class BoardController extends ControllerBase {
         alert.setTitle("GameOver");
         alert.setContentText(isSpectating ? spectatingText : text);
         alert.initOwner(stage);
-        alert.showAndWait();
 
-        changeScene("/caroclient/Main.fxml");
+        if (isSpectating) {
+            container.addForeignAlert(alert);
+            alert.show();
+            container.loadHub();
+        } else {
+            alert.showAndWait();
+            changeScene("/caroclient/Main.fxml");
+        }
     }
 
     public void stopAllTimer() {
